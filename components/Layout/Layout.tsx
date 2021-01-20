@@ -1,4 +1,3 @@
-import { Container } from '@material-ui/core';
 import React from 'react';
 import { TopBar } from './TopBar';
 
