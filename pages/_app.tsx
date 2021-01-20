@@ -1,15 +1,28 @@
 import '../styles/globals.css';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { AppProps } from 'next/dist/next-server/lib/router/router';
-import { Layout } from '../components/Layout/Layout';
+import { Layout } from '../src/shared/components/Layout/Layout';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import theme from '../styles/theme';
 
 const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
+  useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
+
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
   );
 };
 

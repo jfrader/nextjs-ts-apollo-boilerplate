@@ -1,16 +1,3 @@
-import React from 'react';
-import { Container, Typography } from '@material-ui/core';
-import Head from 'next/head';
+import HomePage from '../src/home/pages/HomePage';
 
-export default function Home(): React.ReactElement {
-  return (
-    <Container>
-      <Head>
-        <title>Home</title>
-      </Head>
-      <Container>
-        <Typography>it works!</Typography>
-      </Container>
-    </Container>
-  );
-}
+export default HomePage;

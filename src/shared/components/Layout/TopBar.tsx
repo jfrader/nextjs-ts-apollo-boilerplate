@@ -82,10 +82,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const menuId = 'account-menu';
-const mobileMenuId = 'account-menu-mobile';
-
-export const TopBar = (): React.ReactElement => {
+export const TopBar: React.FC = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -110,6 +107,7 @@ export const TopBar = (): React.ReactElement => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const menuId = 'account-menu';
   const renderMenu = useMemo(
     () => (
       <Menu
@@ -121,6 +119,7 @@ export const TopBar = (): React.ReactElement => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
+        aksdjalsdk
         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </Menu>
@@ -128,6 +127,7 @@ export const TopBar = (): React.ReactElement => {
     [handleMenuClose, anchorEl, isMenuOpen]
   );
 
+  const mobileMenuId = 'account-menu-mobile';
   const renderMobileMenu = useMemo(
     () => (
       <Menu
