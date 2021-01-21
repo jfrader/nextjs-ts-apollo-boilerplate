@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Typography } from '@material-ui/core';
 import Head from 'next/head';
 
