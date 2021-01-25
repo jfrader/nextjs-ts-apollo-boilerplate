@@ -1,3 +1,4 @@
 {
-  "TEST_LOCALE": "It works!"
+  "ERROR_NETWORK": "Hubo un error de red, por favor verifique su conexion",
+  "ERROR_UNEXPECTED": "Lo sentimos, algo salio mal. Por favor vuelve a intentar mas tarde"
 }

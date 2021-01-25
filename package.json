@@ -26,6 +26,7 @@
     "js-cookie": "^2.2.1",
     "next": "latest",
     "next-i18next": "^7.0.1",
+    "notistack": "^1.0.3",
     "react": "latest",
     "react-dom": "latest"
   },

@@ -8,6 +8,7 @@ import { Layout } from '../src/shared/components/Layout/Layout';
 import theme from '../styles/theme';
 import { client } from '../src/apollo.client';
 import { appWithTranslation } from '../src/i18next';
+import { SnackbarProvider } from 'notistack';
 
 const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
   useEffect(() => {
@@ -21,10 +22,12 @@ const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <SnackbarProvider>
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SnackbarProvider>
       </ThemeProvider>
     </ApolloProvider>
   );

@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import { useMemo } from 'react';
+import { useNotification } from '../../shared/hooks/useNotification';
 
 export const ME_QUERY = gql`
   query Me {
@@ -17,7 +18,8 @@ interface IUseAuth {
 }
 
 export const useAuth = (): IUseAuth => {
-  const { data } = useQuery(ME_QUERY);
+  const { apolloError } = useNotification();
+  const { data } = useQuery(ME_QUERY, { onError: apolloError });
 
   const email = useMemo(() => data && data.me.email, [data]);
 
