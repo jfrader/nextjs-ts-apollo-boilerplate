@@ -1,7 +1,9 @@
 import { ApolloError } from '@apollo/client';
 
-export interface MutationHookResponse {
+export interface IRequestHookResponse {
   error: ApolloError;
-  data: unknown;
+  data?: unknown;
   loading: boolean;
 }
+
+export type RequestHookResponse<P = unknown> = IRequestHookResponse & P;

@@ -1,13 +1,13 @@
 import '../styles/globals.css';
 
 import React, { useEffect } from 'react';
-
 import { ApolloProvider } from '@apollo/client';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import { Layout } from '../src/shared/components/Layout/Layout';
 import theme from '../styles/theme';
 import { client } from '../src/apollo.client';
+import { appWithTranslation } from '../src/i18next';
 
 const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
   useEffect(() => {
@@ -30,4 +30,4 @@ const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
   );
 };
 
-export default App;
+export default appWithTranslation(App);

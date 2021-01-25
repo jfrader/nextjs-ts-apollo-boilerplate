@@ -1,12 +1,12 @@
 import { gql, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
-import { MutationHookResponse } from '../../shared/types/mutation-hook.interface';
+import { RequestHookResponse } from '../../shared/types/mutation-hook.interface';
 
 interface ICreateUser {
   createUser: (i: { email: string; password: string }) => void;
 }
 
-export const useLogin = (): MutationHookResponse & ICreateUser => {
+export const useLogin = (): RequestHookResponse<ICreateUser> => {
   const [createUser, { error, data, loading }] = useMutation(gql`
     mutation CreateUser($input: CreateUserInputDTO!) {
       createUser(input: $input) {

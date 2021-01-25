@@ -1,19 +1,23 @@
-import { gql, useMutation } from '@apollo/client';
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
-import { MutationHookResponse } from '../../shared/types/mutation-hook.interface';
+import { RequestHookResponse } from '../../shared/types/mutation-hook.interface';
+import { ME_QUERY } from './useAuth';
 
 interface IUseLogin {
   login: (i: { email: string; password: string }) => void;
 }
 
-export const useLogin = (): MutationHookResponse & IUseLogin => {
-  const [login, { error, data, loading }] = useMutation(gql`
-    mutation Login($input: LoginInputDTO!) {
-      login(input: $input) {
-        accessToken
-      }
+const LOGIN_MUTATION = gql`
+  mutation Login($input: LoginInputDTO!) {
+    login(input: $input) {
+      accessToken
     }
-  `);
+  }
+`;
+
+export const useLogin = (): RequestHookResponse<IUseLogin> => {
+  const [me] = useLazyQuery(ME_QUERY);
+  const [login, { error, data, loading }] = useMutation(LOGIN_MUTATION, { onCompleted: me });
 
   return {
     error,

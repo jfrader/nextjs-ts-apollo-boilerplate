@@ -17,6 +17,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Link from 'next/link';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -84,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const TopBar: React.FC = () => {
   const classes = useStyles();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -119,7 +121,6 @@ export const TopBar: React.FC = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        aksdjalsdk
         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </Menu>
@@ -173,7 +174,7 @@ export const TopBar: React.FC = () => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography component={Link} href="/" className={classes.title} variant="h6" noWrap>
             PenProp Admin
           </Typography>
           <div className={classes.search}>
