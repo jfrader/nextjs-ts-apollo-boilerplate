@@ -16,12 +16,18 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-export const useLogin = (): RequestHookResponse<IUseLogin> => {
+export const useLogin = (onCompleted): RequestHookResponse<IUseLogin> => {
   const { apolloError } = useNotification();
 
   const [me] = useLazyQuery(ME_QUERY);
 
-  const [login, { error, data, loading }] = useMutation(LOGIN_MUTATION, { onCompleted: me, onError: apolloError });
+  const [login, { error, data, loading }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: () => {
+      me();
+      onCompleted && onCompleted();
+    },
+    onError: apolloError,
+  });
 
   return {
     error,
