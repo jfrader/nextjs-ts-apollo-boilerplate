@@ -9,8 +9,9 @@ import theme from '../styles/theme';
 import { client } from '../src/apollo.client';
 import { appWithTranslation } from '../src/i18next';
 import { SnackbarProvider } from 'notistack';
+import App from 'next/app';
 
-const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
+const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -33,4 +34,9 @@ const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
   );
 };
 
-export default appWithTranslation(App);
+MyApp.getInitialProps = async (appContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  return { ...appProps };
+};
+
+export default appWithTranslation(MyApp);

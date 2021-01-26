@@ -16,7 +16,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-export const useLogin = (onCompleted): RequestHookResponse<IUseLogin> => {
+export const useLogin = (onCompleted: () => unknown): RequestHookResponse<IUseLogin> => {
   const { apolloError } = useNotification();
 
   const [me] = useLazyQuery(ME_QUERY);

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
 import Head from 'next/head';
-import { TFunction, withTranslation } from 'next-i18next';
 import { useAuth } from '../src/auth/hooks/useAuth';
+import { withTranslation } from '../src/i18next';
 
-const ErrorPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
+const ErrorPage = (): React.ReactElement => {
   useAuth();
   return (
     <Container>

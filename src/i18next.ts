@@ -7,6 +7,6 @@ const NextI18NextInstance = new NextI18Next({
   otherLanguages: [],
 });
 
-export const { appWithTranslation, useTranslation } = NextI18NextInstance;
+export const { appWithTranslation, useTranslation, withTranslation } = NextI18NextInstance;
 
 export default NextI18NextInstance;
