@@ -1,5 +1,4 @@
 import { ApolloError } from '@apollo/client';
-import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useMemo } from 'react';
 import { useTranslation } from '../../i18next';
@@ -28,7 +27,6 @@ const DEFAULT_OPTIONS: INotificationOptions = {
 
 export const useNotification = (): IUseNotification => {
   const snackbar = useSnackbar();
-  const router = useRouter();
   const { t } = useTranslation('common');
 
   return useMemo(() => {

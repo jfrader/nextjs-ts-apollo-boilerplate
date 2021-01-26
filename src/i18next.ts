@@ -2,7 +2,7 @@ import NextI18Next from 'next-i18next';
 import * as path from 'path';
 
 const NextI18NextInstance = new NextI18Next({
-  defaultLanguage: 'es',
+  defaultLanguage: process.env.NEXT_PUBLIC_LANG || 'en',
   localePath: path.resolve('./public/static/locales'),
   otherLanguages: [],
 });
