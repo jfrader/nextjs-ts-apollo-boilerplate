@@ -1,31 +1,16 @@
-import { gql, useQuery } from '@apollo/client';
-import { useMemo } from 'react';
-import { useNotification } from '../../shared/hooks/useNotification';
+import React from 'react';
+import { IAuthContext } from '../types/context';
+import { AuthContext } from '../providers/AuthProvider';
 
-export const ME_QUERY = gql`
-  query Me {
-    me {
-      email
-      role
-    }
+export function useAuth(): IAuthContext {
+  const context = React.useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
   }
-`;
-
-interface IUseAuth {
-  isLogged: boolean;
-  role?: string;
-  email?: string;
+  return context;
 }
 
-export const useAuth = (): IUseAuth => {
-  const { apolloError } = useNotification();
-  const { data } = useQuery(ME_QUERY, { onError: apolloError });
-
-  const email = useMemo(() => data && data.me.email, [data]);
-
-  return {
-    isLogged: !!email,
-    role: data && data.me.role,
-    email,
-  };
-};
+export function useIsLogged(): boolean {
+  const context = useAuth();
+  return context.isLogged;
+}

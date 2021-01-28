@@ -10,8 +10,11 @@ import { client } from '../src/apollo.client';
 import { appWithTranslation } from '../src/i18next';
 import { SnackbarProvider } from 'notistack';
 import App from 'next/app';
+import cookie from 'cookie';
+import { CookieMessage } from '../src/auth/types/cookie';
+import { AuthProvider } from '../src/auth/providers/AuthProvider';
 
-const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
+const MyApp = ({ Component, pageProps, isLogged }: AppProps): React.ReactElement => {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -22,21 +25,32 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
 
   return (
     <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <CssBaseline />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </SnackbarProvider>
-      </ThemeProvider>
+      <AuthProvider logged={isLogged}>
+        <ThemeProvider theme={theme}>
+          <SnackbarProvider>
+            <CssBaseline />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </SnackbarProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </ApolloProvider>
   );
 };
 
 MyApp.getInitialProps = async (appContext) => {
+  let isLogged = false;
+  const request = appContext.ctx.req as CookieMessage;
+  if (request) {
+    request.cookies = cookie.parse(request.headers.cookie || '');
+    isLogged = !!request.cookies.Authentication;
+  }
+
+  // Call the page's `getInitialProps` and fill `appProps.pageProps`
   const appProps = await App.getInitialProps(appContext);
-  return { ...appProps };
+
+  return { ...appProps, isLogged };
 };
 
 export default appWithTranslation(MyApp);

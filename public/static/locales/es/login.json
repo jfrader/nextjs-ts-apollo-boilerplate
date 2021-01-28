@@ -1,4 +1,6 @@
 {
   "REQUIRED_EMAIL": "Email es obligatorio!",
-  "REQUIRED_PASSWORD": "Password es obligatorio!"
+  "REQUIRED_PASSWORD": "Password es obligatorio!",
+  "LITERAL_LOGIN": "Iniciar Sesión",
+  "LITERAL_LOGOUT": "Cerrar Sesión"
 }

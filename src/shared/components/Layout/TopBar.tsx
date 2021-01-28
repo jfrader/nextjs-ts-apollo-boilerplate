@@ -18,6 +18,11 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from 'next/link';
+import { useLogout } from '../../../auth/hooks/useLogout';
+import { Button } from '@material-ui/core';
+import { useTranslation } from '../../../i18next';
+import { useAuth } from '../../../auth/hooks/useAuth';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -86,6 +91,11 @@ const useStyles = makeStyles((theme) => ({
 export const TopBar: React.FC = () => {
   const classes = useStyles();
 
+  const { t } = useTranslation('login');
+  const { push } = useRouter();
+  const { isLogged } = useAuth();
+  const { logout } = useLogout();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -121,11 +131,10 @@ export const TopBar: React.FC = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={logout}>{t('LITERAL_LOGOUT')}</MenuItem>
       </Menu>
     ),
-    [handleMenuClose, anchorEl, isMenuOpen]
+    [anchorEl, isMenuOpen, handleMenuClose, logout, t]
   );
 
   const mobileMenuId = 'account-menu-mobile';
@@ -140,31 +149,35 @@ export const TopBar: React.FC = () => {
         open={isMobileMenuOpen}
         onClose={handleMobileMenuClose}
       >
-        <MenuItem>
-          <IconButton aria-label="new messages" color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <p>Messages</p>
-        </MenuItem>
-        <MenuItem>
-          <IconButton aria-label="new notifications" color="inherit">
-            <Badge badgeContent={11} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={handleProfileMenuOpen}>
-          <IconButton aria-label="my account" aria-controls="account-menu" aria-haspopup="true" color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
+        {isLogged ? (
+          <>
+            <MenuItem>
+              <IconButton aria-label="new messages" color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+              <p>Messages</p>
+            </MenuItem>
+            <MenuItem>
+              <IconButton aria-label="new notifications" color="inherit">
+                <Badge badgeContent={11} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <p>Notifications</p>
+            </MenuItem>
+            <MenuItem onClick={handleProfileMenuOpen}>
+              <IconButton aria-label="my account" aria-controls="account-menu" aria-haspopup="true" color="inherit">
+                <AccountCircle />
+              </IconButton>
+              <p>Profile</p>
+            </MenuItem>
+          </>
+        ) : null}
       </Menu>
     ),
-    [isMobileMenuOpen, mobileMoreAnchorEl]
+    [isLogged, isMobileMenuOpen, mobileMoreAnchorEl]
   );
 
   return (
@@ -192,26 +205,30 @@ export const TopBar: React.FC = () => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="new messages" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="my account"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {isLogged ? (
+              <>
+                <IconButton aria-label="new messages" color="inherit">
+                  <Badge badgeContent={4} color="secondary">
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton aria-label="new notifications" color="inherit">
+                  <Badge badgeContent={17} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="my account"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </>
+            ) : null}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

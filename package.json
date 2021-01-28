@@ -23,6 +23,7 @@
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
     "@material-ui/styles": "latest",
+    "cookie": "^0.4.1",
     "graphql": "^15.4.0",
     "js-cookie": "^2.2.1",
     "next": "latest",

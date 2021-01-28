@@ -3,29 +3,33 @@ import { useCallback } from 'react';
 import { useNotification } from '../../shared/hooks/useNotification';
 import { RequestHookResponse } from '../../shared/types/mutation-hook.interface';
 
-interface ICreateUser {
+interface ICreateUserProps {
   createUser: (i: { email: string; password: string }) => void;
 }
 
 const LOGIN_MUTATION = gql`
   mutation CreateUser($input: CreateUserInputDTO!) {
     createUser(input: $input) {
-      id
-      email
+      success
+      message
+      node {
+        id
+        email
+      }
     }
   }
 `;
 
-export const useLogin = (): RequestHookResponse<ICreateUser> => {
+export const useLogin = (): RequestHookResponse<ICreateUserProps> => {
   const { apolloError, apolloSuccess } = useNotification();
   const [createUser, { error, data, loading }] = useMutation(LOGIN_MUTATION, {
     onError: apolloError,
-    onCompleted: apolloSuccess('Logged in successfully'),
+    onCompleted: (data) => apolloSuccess(data.createUser.message),
   });
 
   return {
     error,
-    data,
+    data: data && data.createUser.node,
     loading,
     createUser: useCallback(({ email, password }) => createUser({ variables: { input: { email, password } } }), [
       createUser,

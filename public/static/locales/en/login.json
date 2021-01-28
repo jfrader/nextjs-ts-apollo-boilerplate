@@ -1,4 +1,6 @@
 {
   "REQUIRED_EMAIL": "Email is required!",
-  "REQUIRED_PASSWORD": "Password is required!"
+  "REQUIRED_PASSWORD": "Password is required!",
+  "LITERAL_LOGIN": "Sign in",
+  "LITERAL_LOGOUT": "Logout"
 }

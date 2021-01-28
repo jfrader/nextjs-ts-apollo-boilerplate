@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Button, Container, TextField } from '@material-ui/core';
 import Head from 'next/head';
 import { TFunction } from 'next-i18next';
@@ -6,20 +6,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useLogin } from '../src/auth/hooks/useLogin';
-import { useRouter } from 'next/router';
-import { useAuth } from '../src/auth/hooks/useAuth';
 import { withTranslation } from '../src/i18next';
+import withoutAuth from '../src/auth/hocs/withoutAuth';
 
 const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
-  const router = useRouter();
-  const { isLogged } = useAuth();
-  const { login, loading } = useLogin(() => router.push('/'));
-
-  useEffect(() => {
-    if (isLogged) {
-      router.push('/');
-    }
-  }, [isLogged, router]);
+  const { login, loading } = useLogin();
 
   const LoginSchema = useMemo(
     () =>
@@ -72,7 +63,7 @@ const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
           />
 
           <Button variant="outlined" disabled={loading} type="submit">
-            Login
+            {t('LITERAL_LOGIN')}
           </Button>
         </form>
       </Container>
@@ -84,4 +75,4 @@ LoginPage.getInitialProps = async () => ({
   namespacesRequired: ['login'],
 });
 
-export default withTranslation('login')(LoginPage);
+export default withoutAuth(withTranslation('login')(LoginPage));
