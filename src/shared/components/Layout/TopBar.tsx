@@ -21,7 +21,6 @@ import Link from 'next/link';
 import { useLogout } from '../../../auth/hooks/useLogout';
 import { useTranslation } from '../../../i18next';
 import { useAuth } from '../../../auth/hooks/useAuth';
-import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
