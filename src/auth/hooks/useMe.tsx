@@ -11,17 +11,13 @@ export const ME_QUERY = gql`
 `;
 
 interface IUseMe {
-  data: {
-    role?: string;
-    email?: string;
-  };
+  role?: string;
+  email?: string;
 }
 
 export const useMe = (): IUseMe => {
   const { apolloError } = useNotification();
   const { data } = useQuery(ME_QUERY, { onError: apolloError });
 
-  return {
-    data: data && data.me,
-  };
+  return data && data.me ? { ...data.me } : {};
 };

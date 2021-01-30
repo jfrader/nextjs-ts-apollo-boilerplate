@@ -19,7 +19,6 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from 'next/link';
 import { useLogout } from '../../../auth/hooks/useLogout';
-import { Button } from '@material-ui/core';
 import { useTranslation } from '../../../i18next';
 import { useAuth } from '../../../auth/hooks/useAuth';
 import { useRouter } from 'next/router';
@@ -92,7 +91,6 @@ export const TopBar: React.FC = () => {
   const classes = useStyles();
 
   const { t } = useTranslation('login');
-  const { push } = useRouter();
   const { isLogged } = useAuth();
   const { logout } = useLogout();
 
@@ -139,44 +137,41 @@ export const TopBar: React.FC = () => {
 
   const mobileMenuId = 'account-menu-mobile';
   const renderMobileMenu = useMemo(
-    () => (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        id={mobileMenuId}
-        keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={handleMobileMenuClose}
-      >
-        {isLogged ? (
-          <>
-            <MenuItem>
-              <IconButton aria-label="new messages" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-              <IconButton aria-label="new notifications" color="inherit">
-                <Badge badgeContent={11} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <p>Notifications</p>
-            </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-              <IconButton aria-label="my account" aria-controls="account-menu" aria-haspopup="true" color="inherit">
-                <AccountCircle />
-              </IconButton>
-              <p>Profile</p>
-            </MenuItem>
-          </>
-        ) : null}
-      </Menu>
-    ),
+    () =>
+      isLogged ? (
+        <Menu
+          anchorEl={mobileMoreAnchorEl}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          id={mobileMenuId}
+          keepMounted
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={isMobileMenuOpen}
+          onClose={handleMobileMenuClose}
+        >
+          <MenuItem>
+            <IconButton aria-label="new messages" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <p>Messages</p>
+          </MenuItem>
+          <MenuItem>
+            <IconButton aria-label="new notifications" color="inherit">
+              <Badge badgeContent={11} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <p>Notifications</p>
+          </MenuItem>
+          <MenuItem onClick={handleProfileMenuOpen}>
+            <IconButton aria-label="my account" aria-controls="account-menu" aria-haspopup="true" color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <p>Profile</p>
+          </MenuItem>
+        </Menu>
+      ) : null,
     [isLogged, isMobileMenuOpen, mobileMoreAnchorEl]
   );
 
@@ -207,7 +202,7 @@ export const TopBar: React.FC = () => {
           <div className={classes.sectionDesktop}>
             {isLogged ? (
               <>
-                <IconButton aria-label="new messages" color="inherit">
+                {/*                 <IconButton aria-label="new messages" color="inherit">
                   <Badge badgeContent={4} color="secondary">
                     <MailIcon />
                   </Badge>
@@ -216,7 +211,7 @@ export const TopBar: React.FC = () => {
                   <Badge badgeContent={17} color="secondary">
                     <NotificationsIcon />
                   </Badge>
-                </IconButton>
+                </IconButton> */}
                 <IconButton
                   edge="end"
                   aria-label="my account"

@@ -15,9 +15,9 @@ interface INotificationOptions {
 interface IUseNotification {
   notify: (m: string, o: INotificationOptions) => void;
   success: (m: string) => void;
+  info: (m: string) => void;
   error: (m: string) => void;
   apolloError: (e: ApolloError) => void;
-  apolloSuccess: (m: string) => () => void;
 }
 
 const DEFAULT_OPTIONS: INotificationOptions = {
@@ -36,6 +36,7 @@ export const useNotification = (): IUseNotification => {
 
     const error = (message: string) => notify(message, { variant: 'error' });
     const success = (message: string) => notify(message, { variant: 'success' });
+    const info = (message: string) => notify(message, { variant: 'info' });
     const apolloError = (e: ApolloError) => {
       const { errors, isAuthError } = parseError(e, t);
       if (isAuthError) {
@@ -43,14 +44,13 @@ export const useNotification = (): IUseNotification => {
       }
       errors.forEach((m: string) => error(m));
     };
-    const apolloSuccess = (m: string) => () => success(m);
 
     return {
       notify,
       success,
       error,
+      info,
       apolloError,
-      apolloSuccess,
     };
   }, [snackbar, t]);
 };

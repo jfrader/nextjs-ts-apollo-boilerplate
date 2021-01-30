@@ -1,3 +1,4 @@
 {
-  "TEST_LOCALE": "It works!!!"
+  "WELCOME_NAME": "Bienvenido {{ name }}!",
+  "WELCOME_LITERAL": "Bienvenido"
 }

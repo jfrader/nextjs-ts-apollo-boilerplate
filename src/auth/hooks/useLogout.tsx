@@ -5,9 +5,9 @@ import { RequestHookResponse } from '../../shared/types/mutation-hook.interface'
 import { useAuth } from './useAuth';
 import { ME_QUERY } from './useMe';
 
-interface IUseLogout {
+type IUseLogout = RequestHookResponse<{
   logout: () => void;
-}
+}>;
 
 const LOGOUT_MUTATION = gql`
   mutation Logout {
@@ -18,8 +18,8 @@ const LOGOUT_MUTATION = gql`
   }
 `;
 
-export const useLogout = (): RequestHookResponse<IUseLogout> => {
-  const { apolloError, apolloSuccess } = useNotification();
+export const useLogout = (): IUseLogout => {
+  const { apolloError, info } = useNotification();
   const { push } = useRouter();
   const { setLogged } = useAuth();
   const [me] = useLazyQuery(ME_QUERY);
@@ -28,7 +28,7 @@ export const useLogout = (): RequestHookResponse<IUseLogout> => {
     onCompleted: (data) => {
       me();
       setLogged(false);
-      apolloSuccess(data.logout.message);
+      info(data.logout.message);
       push('/login');
     },
     onError: apolloError,

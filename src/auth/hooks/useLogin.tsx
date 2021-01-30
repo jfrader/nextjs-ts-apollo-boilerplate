@@ -6,9 +6,9 @@ import { RequestHookResponse } from '../../shared/types/mutation-hook.interface'
 import { useAuth } from './useAuth';
 import { ME_QUERY } from './useMe';
 
-interface IUseLoginProps {
-  login: (i: { email: string; password: string }) => void;
-}
+type IUseLogin = RequestHookResponse<{
+  login: (input: { email: string; password: string }) => void;
+}>;
 
 const LOGIN_MUTATION = gql`
   mutation Login($input: LoginInputDTO!) {
@@ -19,17 +19,18 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-export const useLogin = (): RequestHookResponse<IUseLoginProps> => {
-  const { apolloError, apolloSuccess } = useNotification();
+export const useLogin = (): IUseLogin => {
+  const { apolloError, info } = useNotification();
   const { push } = useRouter();
   const { setLogged } = useAuth();
   const [me] = useLazyQuery(ME_QUERY);
 
   const [login, { error, data, loading }] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
+      console.log(data);
       me();
       setLogged(true);
-      apolloSuccess(data.login.message);
+      info(data.login.message);
       push('/');
     },
     onError: apolloError,
