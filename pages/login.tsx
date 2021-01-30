@@ -39,6 +39,7 @@ const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
                 variant="outlined"
                 type="email"
                 aria-invalid={errors.email ? 'true' : 'false'}
+                error={!!errors.email}
                 helperText={errors.email && errors.email.message}
                 onChange={onChange}
                 value={value}
@@ -55,6 +56,7 @@ const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
                 variant="outlined"
                 type="password"
                 aria-invalid={errors.password ? 'true' : 'false'}
+                error={!!errors.password}
                 helperText={errors.password && errors.password.message}
                 onChange={onChange}
                 value={value}
