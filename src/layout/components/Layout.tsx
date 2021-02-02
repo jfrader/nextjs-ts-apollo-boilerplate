@@ -1,11 +1,11 @@
 import React from 'react';
 import { TopBar } from './TopBar';
 
-interface LayoutProps {
+interface ILayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout = ({ children }: LayoutProps): React.ReactElement => {
+export const Layout = ({ children }: ILayoutProps): React.ReactElement => {
   return (
     <div>
       <TopBar />

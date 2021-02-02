@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Button, Container, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import Head from 'next/head';
 import { TFunction } from 'next-i18next';
 import { Controller, useForm } from 'react-hook-form';
@@ -7,6 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useLogin } from '../src/auth/hooks/useLogin';
 import { withTranslation } from '../src/i18next';
+import { PageContainer } from '../src/layout/components/PageContainer';
+import { PageContent } from '../src/layout/components/PageContent';
 import withoutAuth from '../src/auth/hocs/withoutAuth';
 
 const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
@@ -24,11 +26,11 @@ const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
   const { handleSubmit, errors, control } = useForm({ resolver: yupResolver(LoginSchema) });
 
   return (
-    <Container>
+    <PageContainer>
       <Head>
         <title>Login</title>
       </Head>
-      <Container>
+      <PageContent>
         <form onSubmit={handleSubmit(login)}>
           <Controller
             name="email"
@@ -68,8 +70,8 @@ const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
             {t('LITERAL_LOGIN')}
           </Button>
         </form>
-      </Container>
-    </Container>
+      </PageContent>
+    </PageContainer>
   );
 };
 

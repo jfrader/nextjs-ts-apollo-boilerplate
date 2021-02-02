@@ -35,7 +35,7 @@ export default function withRedirection<CP = Record<string, never>, IP = CP>({
 }: {
   WrappedComponent: NextPage<CP, IP>;
   clientCondition(): boolean;
-  serverCondition(ctx: CookiesPageContext): boolean;
+  serverCondition(ctx: CookiesPageContext): Promise<boolean>;
   location: string;
 }): NextPage<CP, IP> {
   const WithRedirectionWrapper: NextPage<CP, IP> = (props) => {
@@ -50,7 +50,7 @@ export default function withRedirection<CP = Record<string, never>, IP = CP>({
 
   WithRedirectionWrapper.getInitialProps = async (ctx): Promise<IP> => {
     if (!isBrowser() && ctx.res) {
-      if (serverCondition(ctx as CookiesPageContext)) {
+      if (await serverCondition(ctx as CookiesPageContext)) {
         ctx.res.writeHead(302, { Location: location });
         ctx.res.end();
       }

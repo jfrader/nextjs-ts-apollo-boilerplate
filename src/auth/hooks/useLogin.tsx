@@ -27,7 +27,6 @@ export const useLogin = (): IUseLogin => {
 
   const [login, { error, data, loading }] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
-      console.log(data);
       me();
       setLogged(true);
       info(data.login.message);

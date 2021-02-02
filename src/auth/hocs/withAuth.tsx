@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { useIsLogged } from '../hooks/useAuth';
+import verifyToken from '../utils/verifyToken';
 import withRedirection from './withRedirection';
 
 /**
@@ -14,8 +15,8 @@ export default function withAuth<CP, IP>(WrappedComponent: NextPage<CP, IP>, loc
       // eslint-disable-next-line react-hooks/rules-of-hooks
       return !useIsLogged();
     },
-    serverCondition: function withAuthServerCondition(ctx) {
-      return !ctx.req?.cookies.Authentication;
+    serverCondition: async function withAuthServerCondition(ctx) {
+      return await verifyToken(ctx.req?.cookies.Authentication);
     },
   });
 }

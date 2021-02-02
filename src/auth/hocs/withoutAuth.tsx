@@ -14,7 +14,7 @@ export default function withoutAuth<P>(WrappedComponent: NextPage<P>, location =
       // eslint-disable-next-line react-hooks/rules-of-hooks
       return useIsLogged();
     },
-    serverCondition: function withoutAuthServerCondition(ctx) {
+    serverCondition: async function withoutAuthServerCondition(ctx) {
       return !!ctx.req?.cookies.Authentication;
     },
   });

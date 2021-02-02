@@ -18,9 +18,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from 'next/link';
-import { useLogout } from '../../../auth/hooks/useLogout';
-import { useTranslation } from '../../../i18next';
-import { useAuth } from '../../../auth/hooks/useAuth';
+import { useLogout } from '../../auth/hooks/useLogout';
+import { useTranslation } from '../../i18next';
+import { useAuth } from '../../auth/hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -201,7 +201,8 @@ export const TopBar: React.FC = () => {
           <div className={classes.sectionDesktop}>
             {isLogged ? (
               <>
-                {/*                 <IconButton aria-label="new messages" color="inherit">
+                {/*                
+                <IconButton aria-label="new messages" color="inherit">
                   <Badge badgeContent={4} color="secondary">
                     <MailIcon />
                   </Badge>

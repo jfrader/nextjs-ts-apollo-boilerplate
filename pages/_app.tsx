@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
-import { Layout } from '../src/shared/components/Layout/Layout';
+import { Layout } from '../src/layout/components/Layout';
 import theme from '../styles/theme';
 import { client } from '../src/apollo.client';
 import { appWithTranslation } from '../src/i18next';
