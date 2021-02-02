@@ -1,11 +1,13 @@
+import 'isomorphic-fetch';
+
 const verifyToken = async (token: string): Promise<boolean> => {
   try {
     const res = await fetch('http://localhost:3001/graphql', {
       method: 'POST',
-      headers: {
+      headers: new Headers({
         'Content-Type': 'application/json',
         Cookie: `Authentication=${token}`,
-      },
+      }),
       body: JSON.stringify({
         query: `
           query Me {

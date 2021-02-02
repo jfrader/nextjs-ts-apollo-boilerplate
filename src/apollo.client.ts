@@ -4,7 +4,7 @@ const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_PEN_API_HOST,
   credentials: 'include',
   headers: {
-    'x-custom-lang': process.env.NEXT_PUBLIC_LANG,
+    'x-custom-lang': process.env.NEXT_PUBLIC_DEFAULT_LANG,
   },
 });
 
