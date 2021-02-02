@@ -15,7 +15,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from 'next/link';
 import { useLogout } from '../../auth/hooks/useLogout';
@@ -155,6 +154,7 @@ export const TopBar: React.FC = () => {
             </IconButton>
             <p>Messages</p>
           </MenuItem>
+          {/*          
           <MenuItem>
             <IconButton aria-label="new notifications" color="inherit">
               <Badge badgeContent={11} color="secondary">
@@ -168,7 +168,7 @@ export const TopBar: React.FC = () => {
               <AccountCircle />
             </IconButton>
             <p>Profile</p>
-          </MenuItem>
+          </MenuItem> */}
         </Menu>
       ) : null,
     [isLogged, isMobileMenuOpen, mobileMoreAnchorEl]

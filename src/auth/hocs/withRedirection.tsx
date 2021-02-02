@@ -21,7 +21,7 @@ function isBrowser(): boolean {
  * whether to perform the redirect. It will always be called, even on
  * the server. This is necessary so that it can have hooks in it (since
  * can't be inside conditionals and must always be called).
- * @param serverCondition A function that returns a boolean representing
+ * @param serverCondition An async function that returns a boolean representing
  * whether to perform the redirect. It is only called on the server. It
  * accepts a Next page context as a parameter so that the request can
  * be examined and the response can be changed.
