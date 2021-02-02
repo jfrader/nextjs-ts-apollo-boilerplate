@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
 import { useNotification } from '../../shared/hooks/useNotification';
-import { RequestHookResponse } from '../../shared/types/mutation-hook.interface';
+import { RequestHookResponse } from '../../shared/types/apollo-hooks.interface';
 
 type ICreateUser = RequestHookResponse<{
   createUser: (input: { email: string; password: string }) => void;

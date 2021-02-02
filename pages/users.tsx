@@ -5,14 +5,19 @@ import { withTranslation } from '../src/i18next';
 import withAuth from '../src/auth/hocs/withAuth';
 import { PageContainer } from '../src/layout/components/PageContainer';
 import { PageContent } from '../src/layout/components/PageContent';
+import { useGetUsers } from '../src/users/hooks/useGetUsers';
+import { UsersTable } from '../src/users/components/UsersTable';
 
 const HomePage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
+  const { data } = useGetUsers();
   return (
     <PageContainer>
       <Head>
-        <title>Users Dashboard</title>
+        <title>{t('USERS_PAGE_TITLE')}</title>
       </Head>
-      <PageContent>Users...</PageContent>
+      <PageContent>
+        <UsersTable data={data} />
+      </PageContent>
     </PageContainer>
   );
 };
