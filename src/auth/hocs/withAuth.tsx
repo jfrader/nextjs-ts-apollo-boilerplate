@@ -20,7 +20,7 @@ export default function withAuth<CP, IP>(WrappedComponent: NextPage<CP, IP>, loc
       if (!token) {
         return false;
       }
-      return await verifyToken(token);
+      return await !verifyToken(token);
     },
   });
 }

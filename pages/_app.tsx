@@ -41,6 +41,7 @@ const MyApp = ({ Component, pageProps, isLogged }: AppProps): React.ReactElement
 
 MyApp.getInitialProps = async (appContext) => {
   let isLogged = false;
+
   const request = appContext.ctx.req as CookieMessage;
   if (request) {
     request.cookies = cookie.parse(request.headers.cookie || '');

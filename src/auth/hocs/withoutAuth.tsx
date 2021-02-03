@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { useIsLogged } from '../hooks/useAuth';
+import verifyToken from '../utils/verifyToken';
 import withRedirection from './withRedirection';
 
 /**
@@ -15,7 +16,11 @@ export default function withoutAuth<P>(WrappedComponent: NextPage<P>, location =
       return useIsLogged();
     },
     serverCondition: async function withoutAuthServerCondition(ctx) {
-      return !!ctx.req?.cookies.Authentication;
+      const token = ctx.req?.cookies.Authentication;
+      if (!token) {
+        return false;
+      }
+      return await verifyToken(token);
     },
   });
 }
