@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-key */
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
+import { DataTable } from '../../shared/table/components/DataTable';
 
 interface IUsersTableProps {
   data: Record<string, unknown>[];
@@ -11,38 +10,22 @@ export const UsersTable = ({ data }: IUsersTableProps): React.ReactElement => {
   const columns = useMemo(
     () => [
       {
-        Header: 'email',
+        accessor: 'id',
+        Header: 'ID',
+      },
+      {
         accessor: 'email',
+        Header: 'Email',
+      },
+      {
+        accessor: 'role',
+        Header: 'Role',
       },
     ],
     []
   );
 
-  const { getTableProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
+  const TableProps = useTable({ columns, data });
 
-  return (
-    <Table {...getTableProps()}>
-      <TableHead>
-        {headerGroups.map((headerGroup) => (
-          <TableRow {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableHead>
-      <TableBody>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <TableRow {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
-              })}
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
-  );
+  return <DataTable {...TableProps} />;
 };

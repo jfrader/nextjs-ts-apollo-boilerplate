@@ -10,7 +10,7 @@ import { withTranslation } from '../src/i18next';
 import { PageContainer } from '../src/layout/components/PageContainer';
 import { PageContent } from '../src/layout/components/PageContent';
 import withoutAuth from '../src/auth/hocs/withoutAuth';
-import { TextInput } from '../src/shared/components/form/TextInput';
+import { TextInput } from '../src/shared/form/components/TextInput';
 
 const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
   const { login, loading } = useLogin();

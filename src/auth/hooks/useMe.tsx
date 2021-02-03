@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
-import { useNotification } from '../../shared/hooks/useNotification';
+import { useNotification } from '../../shared/notifications/hooks/useNotification';
 
 export const ME_QUERY = gql`
   query Me {

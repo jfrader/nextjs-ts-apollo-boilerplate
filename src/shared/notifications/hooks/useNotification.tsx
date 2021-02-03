@@ -1,8 +1,8 @@
 import { ApolloError } from '@apollo/client';
 import { useSnackbar } from 'notistack';
 import { useMemo } from 'react';
-import { useTranslation } from '../../i18next';
-import { parseError } from '../utils/error';
+import { useTranslation } from '../../../i18next';
+import { parseError } from '../../utils/error';
 
 type NotificationVariant = 'default' | 'error' | 'success' | 'warning' | 'info';
 
