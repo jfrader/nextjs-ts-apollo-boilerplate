@@ -19,7 +19,7 @@ const verifyToken = async (token: string): Promise<boolean> => {
       }),
     });
     const jsonRes = await res.json();
-    return !!(jsonRes.me && jsonRes.me.email);
+    return !!(jsonRes.data && jsonRes.data.me && jsonRes.data.me.email);
   } catch (e) {
     return false;
   }

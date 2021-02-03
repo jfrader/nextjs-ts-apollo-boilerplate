@@ -20,7 +20,8 @@ export default function withoutAuth<P>(WrappedComponent: NextPage<P>, location =
       if (!token) {
         return false;
       }
-      return await verifyToken(token);
+      const isLogged = await verifyToken(token);
+      return isLogged;
     },
   });
 }

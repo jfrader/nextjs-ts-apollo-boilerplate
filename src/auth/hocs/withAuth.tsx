@@ -18,9 +18,10 @@ export default function withAuth<CP, IP>(WrappedComponent: NextPage<CP, IP>, loc
     serverCondition: async function withAuthServerCondition(ctx) {
       const token = ctx.req?.cookies.Authentication;
       if (!token) {
-        return false;
+        return true;
       }
-      return await !verifyToken(token);
+      const isLogged = await verifyToken(token);
+      return !isLogged;
     },
   });
 }
