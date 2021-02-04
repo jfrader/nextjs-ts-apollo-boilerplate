@@ -1,6 +1,7 @@
-type IPaginationData = Array<{
-  node: Record<string, unknown>;
+type IPaginationData<P> = Array<{
+  node: P;
 }>;
 
-export const extractNodes = (data: IPaginationData): Array<Record<string, unknown>> =>
-  data ? data.map((e) => e.node) : [];
+export function extractNodes<P = Record<string, unknown>>(data: IPaginationData<P>): Array<P> {
+  return data ? data.map((e) => e.node) : [];
+}

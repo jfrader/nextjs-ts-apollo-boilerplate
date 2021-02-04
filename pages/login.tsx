@@ -24,7 +24,9 @@ const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
     [t]
   );
 
-  const { handleSubmit, errors, control } = useForm({ resolver: yupResolver(LoginSchema) });
+  const { handleSubmit, errors, control } = useForm({
+    resolver: yupResolver(LoginSchema),
+  });
 
   return (
     <PageContainer>
@@ -36,11 +38,13 @@ const LoginPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
           <Controller
             name="email"
             control={control}
+            defaultValue=""
             render={(props) => <TextInput {...props} error={errors?.email} type="email" />}
           />
           <Controller
             name="password"
             control={control}
+            defaultValue=""
             render={(props) => <TextInput {...props} error={errors?.password} type="password" />}
           />
           <Button variant="outlined" disabled={loading} type="submit">

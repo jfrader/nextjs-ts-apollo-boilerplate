@@ -3,7 +3,13 @@ import { useMemo } from 'react';
 import { PaginatedQueryHookResponse } from '../../shared/types/apollo-hooks.interface';
 import { extractNodes } from '../../shared/utils/pagination';
 
-type IGetUsers = PaginatedQueryHookResponse;
+export interface IUserEntity {
+  id: string;
+  email: string;
+  role: string;
+}
+
+type IGetUsers = PaginatedQueryHookResponse<IUserEntity>;
 
 const GET_USERS_QUERY = gql`
   query GetUsers {

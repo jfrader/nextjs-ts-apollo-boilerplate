@@ -1,31 +1,30 @@
-import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
-import { DataTable } from '../../shared/table/components/DataTable';
+import React from 'react';
+import { useDataTable } from '../../shared/table/hooks/useDataTable';
+import { IUserEntity } from '../hooks/useGetUsers';
 
 interface IUsersTableProps {
-  data: Record<string, unknown>[];
+  data: IUserEntity[];
+  fetchMore(p: { limit: number; offset: number }): void;
 }
 
-export const UsersTable = ({ data }: IUsersTableProps): React.ReactElement => {
-  const columns = useMemo(
-    () => [
+export const UsersTable = ({ data = [] }: IUsersTableProps): React.ReactElement => {
+  const DataTable = useDataTable<IUserEntity>({
+    columns: [
       {
         accessor: 'id',
-        Header: 'ID',
+        title: 'ID',
       },
       {
         accessor: 'email',
-        Header: 'Email',
+        title: 'Email',
       },
       {
         accessor: 'role',
-        Header: 'Role',
+        title: 'Role',
       },
     ],
-    []
-  );
+    rows: data,
+  });
 
-  const TableProps = useTable({ columns, data });
-
-  return <DataTable {...TableProps} />;
+  return <DataTable />;
 };

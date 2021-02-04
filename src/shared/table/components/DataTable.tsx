@@ -1,38 +1,56 @@
-/* eslint-disable react/jsx-key */
-import React from 'react';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
-import { TableInstance } from 'react-table';
+import React, { useCallback } from 'react';
+import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { DataTableAccessor } from '../hooks/useAccessor';
+import { DataTableHeaderCell } from './DataTableHeaderCell';
+import { DataTableRowCell } from './DataTableRowCell';
 
-interface DataTableProps {
-  children?: React.ReactNode;
+export interface IDataTableColumn {
+  accessor: DataTableAccessor;
+  key?: string;
+  title?: React.ReactNode;
+  align?: 'left' | 'right' | 'center';
 }
 
-type IDataTableProps = TableInstance & DataTableProps;
+export type IDataTableRow<E = Record<string, unknown>> = (Record<string, unknown> | E) & { id: string };
 
-export const DataTable = ({ getTableProps, headerGroups, rows, prepareRow }: IDataTableProps): React.ReactElement => {
+export interface IDataTableProps<E = Record<string, unknown>> {
+  rows?: IDataTableRow<E>[];
+  columns: IDataTableColumn[];
+  children?: React.ReactNode;
+  component?: React.FC;
+}
+
+const getColumnKey = (column: IDataTableColumn, index: number) =>
+  typeof column.title === 'string' ? column.title : column.key || index;
+
+export const DataTable = ({ rows = [], columns = [], component = Paper }: IDataTableProps): React.ReactElement => {
+  const RenderColumnHeader = useCallback((column: IDataTableColumn, i) => {
+    const key = getColumnKey(column, i);
+    return <DataTableHeaderCell key={key} column={column} />;
+  }, []);
+
+  const RenderRow = useCallback(
+    (row: IDataTableRow) => {
+      return (
+        <TableRow key={row.id}>
+          {columns.map((column: IDataTableColumn, i) => {
+            const cellKey = row.id + getColumnKey(column, i);
+            return <DataTableRowCell key={cellKey} column={column} row={row} />;
+          })}
+        </TableRow>
+      );
+    },
+    [columns]
+  );
+
   return (
-    <Table {...getTableProps()}>
-      <TableHead>
-        {headerGroups.map((headerGroup) => (
-          <TableRow {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableHead>
-      <TableBody>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <TableRow {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
-              })}
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+    <TableContainer component={component}>
+      <Table size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>{columns.map(RenderColumnHeader)}</TableRow>
+        </TableHead>
+        <TableBody>{rows.map(RenderRow)}</TableBody>
+      </Table>
+    </TableContainer>
   );
 };

@@ -53,6 +53,7 @@ export default function withRedirection<CP = Record<string, never>, IP = CP>({
       if (await serverCondition(ctx as CookiesPageContext)) {
         ctx.res.writeHead(302, { Location: location });
         ctx.res.end();
+        return null;
       }
     }
 

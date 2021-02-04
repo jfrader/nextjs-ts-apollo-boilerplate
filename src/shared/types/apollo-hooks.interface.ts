@@ -11,8 +11,8 @@ export interface IQueryResponseEdge {
   cursor: string;
 }
 
-export interface IPaginatedQueryHookResponse {
-  data?: Record<string, unknown>[];
+export interface IPaginatedQueryHookResponse<P> {
+  data?: P[];
   error: ApolloError;
   loading: boolean;
   pageInfo: {
@@ -23,6 +23,6 @@ export interface IPaginatedQueryHookResponse {
   };
 }
 
-export type PaginatedQueryHookResponse = IPaginatedQueryHookResponse;
+export type PaginatedQueryHookResponse<P = Record<string, unknown>> = IPaginatedQueryHookResponse<P>;
 
 export type RequestHookResponse<P = unknown> = IRequestHookResponse & (P | undefined);

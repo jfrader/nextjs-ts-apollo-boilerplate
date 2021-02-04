@@ -8,8 +8,23 @@ const httpLink = createHttpLink({
   },
 });
 
+const REPLACE_FETCH_POLICY = {
+  keyArgs: false,
+  merge(_existing, incoming) {
+    return incoming;
+  },
+};
+
 export const client = new ApolloClient({
   credentials: 'include',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          users: REPLACE_FETCH_POLICY as unknown,
+        },
+      },
+    },
+  }),
   link: httpLink,
 });
