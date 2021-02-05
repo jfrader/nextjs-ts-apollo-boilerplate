@@ -14,9 +14,8 @@ export interface IDataTableColumn {
 export type IDataTableRow<E = Record<string, unknown>> = (Record<string, unknown> | E) & { id: string };
 
 export interface IDataTablePaginationProps {
-  backIconButtonProps?: Partial<{ disabled: boolean }>;
   count: number;
-  labelRowsPerPage?: React.ReactNode;
+  backIconButtonProps?: Partial<{ disabled: boolean }>;
   nextIconButtonProps?: Partial<{ disabled: boolean }>;
   onChangePage: (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => void;
   onChangeRowsPerPage?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;

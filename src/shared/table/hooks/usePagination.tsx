@@ -53,17 +53,22 @@ export const usePagination = ({
     setPagination({ first: e.target.value });
   };
 
-  return [
-    paginationState,
-    {
-      backIconButtonProps: useMemo(() => ({ disabled: !pageInfo.hasPreviousPage }), [pageInfo.hasPreviousPage]),
-      nextIconButtonProps: useMemo(() => ({ disabled: !pageInfo.hasNextPage }), [pageInfo.hasNextPage]),
+  const backIconButtonProps = useMemo(() => ({ disabled: !pageInfo.hasPreviousPage }), [pageInfo.hasPreviousPage]);
+  const nextIconButtonProps = useMemo(() => ({ disabled: !pageInfo.hasNextPage }), [pageInfo.hasNextPage]);
+
+  const paginationProps = useMemo(
+    () => ({
+      backIconButtonProps,
+      nextIconButtonProps,
       page,
       count: totalCount,
       rowsPerPage,
       onChangePage,
       onChangeRowsPerPage,
       rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
-    },
-  ];
+    }),
+    [backIconButtonProps, nextIconButtonProps, onChangePage, page, rowsPerPage, totalCount]
+  );
+
+  return [paginationState, paginationProps];
 };
