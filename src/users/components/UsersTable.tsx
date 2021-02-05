@@ -11,13 +11,11 @@ interface IUsersTableProps {
 }
 
 export const UsersTable = ({ data = [], refetch, pageInfo }: IUsersTableProps): React.ReactElement => {
-  const [paginationState, paginationProps] = usePagination({ pageInfo });
-
-  console.log(paginationProps);
+  const [paging, pagination] = usePagination({ pageInfo });
 
   useEffect(() => {
-    refetch({ paging: paginationState });
-  }, [refetch, paginationState]);
+    refetch({ paging });
+  }, [refetch, paging]);
 
   const DataTable = useDataTable<IUserEntity>({
     columns: [
@@ -35,7 +33,7 @@ export const UsersTable = ({ data = [], refetch, pageInfo }: IUsersTableProps): 
       },
     ],
     rows: data,
-    pagination: paginationProps,
+    pagination,
   });
 
   return <DataTable />;

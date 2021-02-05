@@ -13,8 +13,8 @@ export interface IUsePaginationProps {
 export type IUsePagination = [IQueryPaginationInput, IDataTablePaginationProps];
 
 export const usePagination = ({
-  pageInfo = {},
   pageSize = ROWS_PER_PAGE_OPTIONS[0],
+  pageInfo = {},
   totalCount = -1,
 }: IUsePaginationProps): IUsePagination => {
   const [page, setPage] = useState<number>(0);
@@ -47,11 +47,12 @@ export const usePagination = ({
     [next, page, previous]
   );
 
-  const onChangeRowsPerPage = (e) => {
+  const onChangeRowsPerPage = useCallback((e) => {
+    const newOption = e.target.value;
     setPage(0);
-    setRowsPerPage(e.target.value);
-    setPagination({ first: e.target.value });
-  };
+    setRowsPerPage(newOption);
+    setPagination({ first: newOption });
+  }, []);
 
   const backIconButtonProps = useMemo(() => ({ disabled: !pageInfo.hasPreviousPage }), [pageInfo.hasPreviousPage]);
   const nextIconButtonProps = useMemo(() => ({ disabled: !pageInfo.hasNextPage }), [pageInfo.hasNextPage]);
@@ -67,7 +68,7 @@ export const usePagination = ({
       onChangeRowsPerPage,
       rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     }),
-    [backIconButtonProps, nextIconButtonProps, onChangePage, page, rowsPerPage, totalCount]
+    [backIconButtonProps, nextIconButtonProps, onChangePage, onChangeRowsPerPage, page, rowsPerPage, totalCount]
   );
 
   return [paginationState, paginationProps];
