@@ -9,14 +9,14 @@ import { useGetUsers } from '../src/users/hooks/useGetUsers';
 import { UsersTable } from '../src/users/components/UsersTable';
 
 const HomePage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
-  const { data, fetchMore } = useGetUsers();
+  const { data, refetch, pageInfo } = useGetUsers();
   return (
     <PageContainer>
       <Head>
         <title>{t('USERS_PAGE_TITLE')}</title>
       </Head>
       <PageContent>
-        <UsersTable fetchMore={fetchMore} data={data} />
+        <UsersTable refetch={refetch} data={data} pageInfo={pageInfo} />
       </PageContent>
     </PageContainer>
   );
