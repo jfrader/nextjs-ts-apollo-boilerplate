@@ -1,7 +1,7 @@
-import { gql, useQuery } from '@apollo/client';
-import { useCallback, useMemo } from 'react';
-import { IQueryPaginationInput, PaginatedQueryHookResponse } from '../../shared/types/apollo-hooks.interface';
-import { extractPaginatedResponse } from '../../shared/utils/pagination';
+import { gql } from '@apollo/client';
+import { useCallback } from 'react';
+import { usePaginatedQuery } from '../../shared/apollo/hooks/usePaginatedQuery';
+import { IQueryPaginationInput, PaginatedQueryHookResponse } from '../../shared/apollo/types/apollo-hooks.interface';
 
 export interface IUserEntity {
   id: string;
@@ -36,14 +36,14 @@ const GET_USERS_QUERY = gql`
 `;
 
 export const useGetUsers = ({ paging }: IGetUserProps = { paging: { first: 1 } }): IGetUsers => {
-  const { error, data, loading, refetch } = useQuery(GET_USERS_QUERY, { variables: { paging } });
-
-  const { pageInfo, edges } = useMemo(() => extractPaginatedResponse<IUserEntity>(data, 'users'), [data]);
+  const { error, data, pageInfo, loading, refetch } = usePaginatedQuery<IUserEntity>(GET_USERS_QUERY, {
+    variables: { paging },
+  });
 
   return {
     refetch: useCallback(({ paging }: IGetUserProps) => refetch({ paging }), [refetch]),
     error,
-    data: edges,
+    data,
     loading,
     pageInfo,
   };

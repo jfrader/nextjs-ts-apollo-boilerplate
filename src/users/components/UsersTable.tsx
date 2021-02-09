@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDataTable } from '../../shared/table/hooks/useDataTable';
 import { usePagination } from '../../shared/table/hooks/usePagination';
-import { IQueryPageInfo, QueryFetchMoreFunction } from '../../shared/types/apollo-hooks.interface';
+import { IQueryPageInfo, QueryFetchMoreFunction } from '../../shared/apollo/types/apollo-hooks.interface';
 import { IUserEntity } from '../hooks/useGetUsers';
 
 interface IUsersTableProps {

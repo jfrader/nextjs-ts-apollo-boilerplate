@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { IQueryPageInfo, IQueryPaginationInput } from '../../types/apollo-hooks.interface';
+import { IQueryPageInfo, IQueryPaginationInput } from '../../apollo/types/apollo-hooks.interface';
 import { IDataTablePaginationProps } from '../components/DataTable';
 
 const ROWS_PER_PAGE_OPTIONS = [1, 10, 20, 30, 50, 100];

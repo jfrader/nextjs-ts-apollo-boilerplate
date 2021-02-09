@@ -6,20 +6,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-
+import Link from '../../layout/components/Link';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import Link from 'next/link';
 import { useLogout } from '../../auth/hooks/useLogout';
 import { useTranslation } from '../../i18next';
 import { useAuth } from '../../auth/hooks/useAuth';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -93,27 +88,15 @@ export const TopBar: React.FC = () => {
   const { logout } = useLogout();
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = useCallback(() => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   }, []);
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
 
   const menuId = 'account-menu';
   const renderMenu = useMemo(
@@ -133,47 +116,6 @@ export const TopBar: React.FC = () => {
     [anchorEl, isMenuOpen, handleMenuClose, logout, t]
   );
 
-  const mobileMenuId = 'account-menu-mobile';
-  const renderMobileMenu = useMemo(
-    () =>
-      isLogged ? (
-        <Menu
-          anchorEl={mobileMoreAnchorEl}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          id={mobileMenuId}
-          keepMounted
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          open={isMobileMenuOpen}
-          onClose={handleMobileMenuClose}
-        >
-          <MenuItem>
-            <IconButton aria-label="new messages" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <p>Messages</p>
-          </MenuItem>
-          {/*          
-          <MenuItem>
-            <IconButton aria-label="new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <p>Notifications</p>
-          </MenuItem>
-          <MenuItem onClick={handleProfileMenuOpen}>
-            <IconButton aria-label="my account" aria-controls="account-menu" aria-haspopup="true" color="inherit">
-              <AccountCircle />
-            </IconButton>
-            <p>Profile</p>
-          </MenuItem> */}
-        </Menu>
-      ) : null,
-    [isLogged, isMobileMenuOpen, mobileMoreAnchorEl]
-  );
-
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -184,7 +126,7 @@ export const TopBar: React.FC = () => {
           <Typography component={Link} href="/" className={classes.title} variant="h6" noWrap>
             PenProp Admin
           </Typography>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -196,49 +138,28 @@ export const TopBar: React.FC = () => {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <div>
             {isLogged ? (
-              <>
-                {/*                
-                <IconButton aria-label="new messages" color="inherit">
-                  <Badge badgeContent={4} color="secondary">
-                    <MailIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton aria-label="new notifications" color="inherit">
-                  <Badge badgeContent={17} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton> */}
-                <IconButton
-                  edge="end"
-                  aria-label="my account"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-              </>
-            ) : null}
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="my account"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              <Button aria-label="login" color="inherit" component={Link} href="/login">
+                {t('LITERAL_LOGIN')}
+              </Button>
+            )}
           </div>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
       {renderMenu}
     </div>
   );
