@@ -2,12 +2,12 @@ import { gql } from '@apollo/client';
 import { useCallback } from 'react';
 import { usePaginatedQuery } from '../../shared/apollo/hooks/usePaginatedQuery';
 import {
+  ESortDirection,
   IQueryPaginationInput,
   IQuerySortInput,
   PaginatedQueryHookResponse,
 } from '../../shared/apollo/types/apollo-hooks.interface';
-import { SortDirection } from '../../shared/apollo/types/sort';
-import { UserSortFields } from '../types/user';
+import { UserSortFields } from '../types/user.interface';
 
 export interface IUserEntity {
   id: string;
@@ -23,8 +23,8 @@ export interface IGetUserProps<SF> {
 type IGetUsers = PaginatedQueryHookResponse<IUserEntity, UserSortFields>;
 
 const GET_USERS_QUERY = gql`
-  query GetUsers($paging: CursorPaging) {
-    users(paging: $paging) {
+  query GetUsers($paging: CursorPaging, $sorting: [UserSort!]) {
+    users(paging: $paging, sorting: $sorting) {
       pageInfo {
         hasNextPage
         hasPreviousPage
@@ -43,7 +43,7 @@ const GET_USERS_QUERY = gql`
 `;
 
 const DEFAULT_PAGING = { first: 1 };
-const DEFAULT_SORTING = { field: UserSortFields.created, direction: SortDirection.DESC };
+const DEFAULT_SORTING = [{ field: UserSortFields.id, direction: ESortDirection.DESC }];
 
 const DEFAULT_VARIABLES = {
   paging: DEFAULT_PAGING,
@@ -57,7 +57,9 @@ export const useGetUsers = ({ paging, sorting }: IGetUserProps<UserSortFields> =
 
   return {
     refetch: useCallback(
-      ({ paging, sorting }: IGetUserProps<UserSortFields> = DEFAULT_VARIABLES) => refetch({ paging, sorting }),
+      ({ paging, sorting }: IGetUserProps<UserSortFields> = DEFAULT_VARIABLES) => {
+        refetch({ paging, sorting });
+      },
       [refetch]
     ),
     error,

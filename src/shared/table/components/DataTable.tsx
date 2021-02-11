@@ -24,12 +24,24 @@ export interface IDataTablePaginationProps {
   rowsPerPageOptions?: Array<number | { value: number; label: string }>;
 }
 
+export enum EDataTableSortDirection {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
+export interface IDataTableSortingProps {
+  sortBy: string;
+  sortDirection: EDataTableSortDirection | null;
+  onChangeSort: (key: string) => void;
+}
+
 export interface IDataTableProps<E = Record<string, unknown>> {
   rows?: IDataTableRow<E>[];
   columns: IDataTableColumn[];
   children?: React.ReactNode;
   component?: React.FC;
   pagination?: IDataTablePaginationProps;
+  sorting?: IDataTableSortingProps;
 }
 
 const getColumnKey = (column: IDataTableColumn, index: number) =>
@@ -40,11 +52,15 @@ export const DataTable = ({
   columns = [],
   component = Paper,
   pagination,
+  sorting,
 }: IDataTableProps): React.ReactElement => {
-  const RenderColumnHeader = useCallback((column: IDataTableColumn, i) => {
-    const key = getColumnKey(column, i);
-    return <DataTableHeaderCell key={key} column={column} />;
-  }, []);
+  const RenderColumnHeader = useCallback(
+    (column: IDataTableColumn, i) => {
+      const key = getColumnKey(column, i);
+      return <DataTableHeaderCell sorting={sorting} key={key} column={column} />;
+    },
+    [sorting]
+  );
 
   const RenderRow = useCallback(
     (row: IDataTableRow) => {
