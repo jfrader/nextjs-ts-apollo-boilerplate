@@ -5,7 +5,7 @@ import { IQueryPageInfo, QueryFetchMoreFunction } from '../../shared/apollo/type
 import { IUserEntity } from '../hooks/useGetUsers';
 
 interface IUsersTableProps {
-  data: IUserEntity[];
+  data?: IUserEntity[];
   pageInfo: IQueryPageInfo;
   refetch: QueryFetchMoreFunction;
 }

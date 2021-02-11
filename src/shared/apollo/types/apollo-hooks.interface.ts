@@ -1,4 +1,5 @@
 import { ApolloError } from '@apollo/client';
+import { SortDirection, SortNulls } from './sort';
 
 export type IPaginatedData<P> = Array<{
   node: P;
@@ -34,10 +35,13 @@ export interface IRequestHookResponse {
   loading: boolean;
 }
 
-export type QueryFetchMoreFunction = (input: { paging: IQueryPaginationInput }) => void;
+export type QueryRefetchFunction<SF = Record<string, unknown>> = (input: {
+  paging?: IQueryPaginationInput;
+  sorting?: IQuerySortInput<SF>;
+}) => void;
 
-export interface IPaginatedQueryHookResponse<P> {
-  refetch: QueryFetchMoreFunction;
+export interface IPaginatedQueryHookResponse<P, SF> {
+  refetch: QueryRefetchFunction<SF>;
   data?: P[];
   error: ApolloError;
   loading: boolean;
@@ -51,6 +55,12 @@ export interface IQueryPaginationInput {
   last?: number;
 }
 
-export type PaginatedQueryHookResponse<P = Record<string, unknown>> = IPaginatedQueryHookResponse<P>;
+export interface IQuerySortInput<F = string> {
+  field: F;
+  direction: SortDirection;
+  nulls?: SortNulls;
+}
+
+export type PaginatedQueryHookResponse<P = Record<string, unknown>, SF = string> = IPaginatedQueryHookResponse<P, SF>;
 
 export type RequestHookResponse<P = unknown> = IRequestHookResponse & (P | undefined);

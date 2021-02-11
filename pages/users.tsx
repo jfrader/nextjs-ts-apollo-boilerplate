@@ -8,22 +8,22 @@ import { PageContent } from '../src/layout/components/PageContent';
 import { useGetUsers } from '../src/users/hooks/useGetUsers';
 import { UsersTable } from '../src/users/components/UsersTable';
 
-const HomePage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
-  const { data, refetch, pageInfo } = useGetUsers();
+const UsersPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
+  const getUsers = useGetUsers();
   return (
     <PageContainer>
       <Head>
         <title>{t('USERS_PAGE_TITLE')}</title>
       </Head>
       <PageContent>
-        <UsersTable refetch={refetch} data={data} pageInfo={pageInfo} />
+        <UsersTable {...getUsers} />
       </PageContent>
     </PageContainer>
   );
 };
 
-HomePage.getInitialProps = async () => ({
+UsersPage.getInitialProps = async () => ({
   namespacesRequired: ['users'],
 });
 
-export default withAuth(withTranslation('users')(HomePage));
+export default withAuth(withTranslation('users')(UsersPage));
