@@ -48,7 +48,7 @@ export interface IDataTableSortingProps<SF> {
   onChangeSort: (key: string) => void;
 }
 
-export interface IDataTableProps<E = Record<string, unknown>, SF> {
+export interface IDataTableProps<E = Record<string, unknown>, SF = string> {
   loading?: boolean;
   title?: React.ReactNode;
   rows?: IDataTableRow<E>[];
@@ -62,7 +62,7 @@ export interface IDataTableProps<E = Record<string, unknown>, SF> {
 const getColumnKey = (column: IDataTableColumn, index: number) =>
   typeof column.title === 'string' ? column.title : column.key || index;
 
-export const DataTable = ({
+export function DataTable<E = Record<string, unknown>, SF = string>({
   rows = [],
   columns = [],
   component = Paper,
@@ -70,7 +70,7 @@ export const DataTable = ({
   sorting,
   loading,
   title = null,
-}: IDataTableProps): React.ReactElement => {
+}: IDataTableProps<E, SF>): React.ReactElement {
   const RenderColumnHeader = useCallback(
     (column: IDataTableColumn, i) => {
       const key = getColumnKey(column, i);
@@ -120,4 +120,4 @@ export const DataTable = ({
       {pagination && <TablePagination {...pagination} />}
     </TableContainer>
   );
-};
+}

@@ -12,6 +12,7 @@ const SortDirectionMap: Record<ESortDirection, EDataTableSortDirection> = {
 export function useSorting<SF = string>(): IUseSorting<SF> {
   const [field, setField] = useState<SF | null>(null);
   const [direction, setDirection] = useState<ESortDirection | null>(null);
+
   const onChangeSort = useCallback(
     (key: unknown) => {
       if (field === key && direction === ESortDirection.DESC) {
