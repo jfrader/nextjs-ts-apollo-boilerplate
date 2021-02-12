@@ -1,5 +1,18 @@
 import React, { useCallback } from 'react';
-import { Paper, Table, TableBody, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core';
+import {
+  Toolbar,
+  CircularProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableCell,
+  Typography,
+} from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { DataTableAccessor } from '../hooks/useAccessor';
 import { DataTableHeaderCell } from './DataTableHeaderCell';
 import { DataTableRowCell } from './DataTableRowCell';
@@ -29,19 +42,21 @@ export enum EDataTableSortDirection {
   DESC = 'desc',
 }
 
-export interface IDataTableSortingProps {
-  sortBy: string;
+export interface IDataTableSortingProps<SF> {
+  sortBy: SF;
   sortDirection: EDataTableSortDirection | null;
   onChangeSort: (key: string) => void;
 }
 
-export interface IDataTableProps<E = Record<string, unknown>> {
+export interface IDataTableProps<E = Record<string, unknown>, SF> {
+  loading?: boolean;
+  title?: React.ReactNode;
   rows?: IDataTableRow<E>[];
   columns: IDataTableColumn[];
   children?: React.ReactNode;
   component?: React.FC;
   pagination?: IDataTablePaginationProps;
-  sorting?: IDataTableSortingProps;
+  sorting?: IDataTableSortingProps<SF>;
 }
 
 const getColumnKey = (column: IDataTableColumn, index: number) =>
@@ -53,6 +68,8 @@ export const DataTable = ({
   component = Paper,
   pagination,
   sorting,
+  loading,
+  title = null,
 }: IDataTableProps): React.ReactElement => {
   const RenderColumnHeader = useCallback(
     (column: IDataTableColumn, i) => {
@@ -76,13 +93,29 @@ export const DataTable = ({
     [columns]
   );
 
+  const RenderSkeleton = useCallback(
+    (colLength, size = 10) =>
+      Array.from(new Array(size)).map((_a, i) => (
+        <TableRow key={i}>
+          <TableCell colSpan={colLength}>
+            <Skeleton height={24} width="100%" />
+          </TableCell>
+        </TableRow>
+      )),
+    []
+  );
+
   return (
     <TableContainer component={component}>
+      <Toolbar>
+        <Typography>{title}</Typography>
+        {loading && <CircularProgress />}
+      </Toolbar>
       <Table size="small">
         <TableHead>
           <TableRow>{columns.map(RenderColumnHeader)}</TableRow>
         </TableHead>
-        <TableBody>{rows.map(RenderRow)}</TableBody>
+        <TableBody>{loading ? RenderSkeleton(columns.length, pagination?.rowsPerPage) : rows.map(RenderRow)}</TableBody>
       </Table>
       {pagination && <TablePagination {...pagination} />}
     </TableContainer>

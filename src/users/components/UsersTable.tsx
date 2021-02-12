@@ -4,16 +4,18 @@ import { usePagination } from '../../shared/table/hooks/usePagination';
 import { IQueryPageInfo, QueryRefetchFunction } from '../../shared/apollo/types/apollo-hooks.interface';
 import { IUserEntity } from '../hooks/useGetUsers';
 import { useSorting } from '../../shared/table/hooks/useSorting';
+import { UserSortFields } from '../types/user.interface';
 
 interface IUsersTableProps {
   data?: IUserEntity[];
   pageInfo: IQueryPageInfo;
-  refetch: QueryRefetchFunction;
+  refetch: QueryRefetchFunction<UserSortFields>;
+  loading: boolean;
 }
 
-export const UsersTable = ({ data = [], refetch, pageInfo }: IUsersTableProps): React.ReactElement => {
+export const UsersTable = ({ data = [], refetch, pageInfo, loading }: IUsersTableProps): React.ReactElement => {
   const [paging, pagination] = usePagination({ pageInfo });
-  const [sorting, sortingProps] = useSorting();
+  const [sorting, sortingProps] = useSorting<UserSortFields>();
 
   useEffect(() => {
     refetch({ paging, sorting });
@@ -24,6 +26,7 @@ export const UsersTable = ({ data = [], refetch, pageInfo }: IUsersTableProps): 
       {
         accessor: 'id',
         title: 'ID',
+        key: 'id',
       },
       {
         accessor: 'email',
@@ -37,8 +40,9 @@ export const UsersTable = ({ data = [], refetch, pageInfo }: IUsersTableProps): 
     ],
     rows: data,
     pagination,
+    loading,
     sorting: sortingProps,
   });
 
-  return <DataTable />;
+  return <DataTable title="Users" />;
 };
