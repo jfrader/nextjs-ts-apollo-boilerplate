@@ -1,4 +1,4 @@
-import { TextField } from '@material-ui/core';
+import { Box, TextField } from '@material-ui/core';
 import React from 'react';
 import { FieldErrors } from 'react-hook-form';
 
@@ -11,13 +11,16 @@ interface ITextInputProps {
 }
 
 export const TextInput = ({ onChange, value, error, type = 'text' }: ITextInputProps): React.ReactElement => (
-  <TextField
-    variant="outlined"
-    type={type}
-    aria-invalid={error ? 'true' : 'false'}
-    error={!!error}
-    helperText={error?.message}
-    onChange={onChange}
-    value={value}
-  />
+  <Box py={2} px={1}>
+    <TextField
+      variant="outlined"
+      type={type}
+      fullWidth
+      aria-invalid={error ? 'true' : 'false'}
+      error={!!error}
+      helperText={error?.message}
+      onChange={onChange}
+      value={value}
+    />
+  </Box>
 );

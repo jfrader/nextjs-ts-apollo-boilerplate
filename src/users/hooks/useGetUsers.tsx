@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client';
 import { useCallback } from 'react';
 import { usePaginatedQuery } from '../../shared/apollo/hooks/usePaginatedQuery';
+import { useServerErrors } from '../../shared/apollo/hooks/useServerErrors';
 import {
   ESortDirection,
   IQueryPaginationInput,
   IQuerySortInput,
   PaginatedQueryHookResponse,
-} from '../../shared/apollo/types/apollo-hooks.interface';
+} from '../../shared/apollo/types/hooks.interface';
 import { UserSortFields } from '../types/user.interface';
 
 export interface IUserEntity {
@@ -42,7 +43,7 @@ const GET_USERS_QUERY = gql`
   }
 `;
 
-const DEFAULT_PAGING = { first: 1 };
+const DEFAULT_PAGING = { first: 20 };
 const DEFAULT_SORTING = [{ field: UserSortFields.id, direction: ESortDirection.DESC }];
 
 const DEFAULT_VARIABLES = {
@@ -62,7 +63,7 @@ export const useGetUsers = ({ paging, sorting }: IGetUserProps<UserSortFields> =
       },
       [refetch]
     ),
-    error,
+    serverErrors: useServerErrors(error),
     data,
     loading,
     pageInfo,

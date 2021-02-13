@@ -1,5 +1,3 @@
-import { ApolloError } from '@apollo/client';
-
 export enum ESortDirection {
   ASC = 'ASC',
   DESC = 'DESC',
@@ -39,7 +37,7 @@ export interface IPaginatedQueryResponse<P> {
 }
 
 export interface IRequestHookResponse {
-  error: ApolloError;
+  serverErrors: string[];
   data?: unknown;
   loading: boolean;
 }
@@ -52,7 +50,7 @@ export type QueryRefetchFunction<SF = string> = (input: {
 export interface IPaginatedQueryHookResponse<P, SF> {
   refetch: QueryRefetchFunction<SF>;
   data?: P[];
-  error: ApolloError;
+  serverErrors: string[];
   loading: boolean;
   pageInfo: IQueryPageInfo;
 }

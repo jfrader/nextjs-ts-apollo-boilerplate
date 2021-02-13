@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { ESortDirection } from '../../apollo/types/apollo-hooks.interface';
+import { ESortDirection } from '../../apollo/types/hooks.interface';
 import { IDataTableSortingProps, EDataTableSortDirection } from '../components/DataTable';
 
 type IUseSorting<SF> = [{ field: SF; direction: ESortDirection }[], IDataTableSortingProps<SF>];

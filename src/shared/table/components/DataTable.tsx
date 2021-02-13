@@ -11,6 +11,8 @@ import {
   TableRow,
   TableCell,
   Typography,
+  Box,
+  TableFooter,
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { DataTableAccessor } from '../hooks/useAccessor';
@@ -66,6 +68,7 @@ export function DataTable<E = Record<string, unknown>, SF = string>({
   rows = [],
   columns = [],
   component = Paper,
+  children,
   pagination,
   sorting,
   loading,
@@ -109,15 +112,22 @@ export function DataTable<E = Record<string, unknown>, SF = string>({
     <TableContainer component={component}>
       <Toolbar>
         <Typography>{title}</Typography>
-        {loading && <CircularProgress />}
+        <Box flexGrow={1} />
+        <Box>{loading ? <CircularProgress /> : children}</Box>
       </Toolbar>
       <Table size="small">
         <TableHead>
           <TableRow>{columns.map(RenderColumnHeader)}</TableRow>
         </TableHead>
         <TableBody>{loading ? RenderSkeleton(columns.length, pagination?.rowsPerPage) : rows.map(RenderRow)}</TableBody>
+        <TableFooter hidden={!pagination}>
+          {pagination && (
+            <TableRow>
+              <TablePagination {...pagination} />
+            </TableRow>
+          )}
+        </TableFooter>
       </Table>
-      {pagination && <TablePagination {...pagination} />}
     </TableContainer>
   );
 }

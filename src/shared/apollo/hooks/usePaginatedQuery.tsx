@@ -1,7 +1,7 @@
 import { QueryResult, useQuery } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 import { useMemo } from 'react';
-import { IQueryPageInfo } from '../types/apollo-hooks.interface';
+import { IQueryPageInfo } from '../types/hooks.interface';
 import { extractPaginatedResponse } from '../utils/pagination';
 
 export function usePaginatedQuery<T>(

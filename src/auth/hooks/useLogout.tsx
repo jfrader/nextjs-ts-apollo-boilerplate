@@ -1,9 +1,10 @@
 import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useNotification } from '../../shared/notifications/hooks/useNotification';
-import { RequestHookResponse } from '../../shared/apollo/types/apollo-hooks.interface';
+import { RequestHookResponse } from '../../shared/apollo/types/hooks.interface';
 import { useAuth } from './useAuth';
 import { ME_QUERY } from './useMe';
+import { useServerErrors } from '../../shared/apollo/hooks/useServerErrors';
 
 type IUseLogout = RequestHookResponse<{
   logout: () => void;
@@ -35,7 +36,7 @@ export const useLogout = (): IUseLogout => {
   });
 
   return {
-    error,
+    serverErrors: useServerErrors(error),
     data,
     loading,
     logout,

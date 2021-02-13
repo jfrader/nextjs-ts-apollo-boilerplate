@@ -1,4 +1,4 @@
-import { IPaginatedData, IPaginatedQueryResponse, IPaginatedResponse } from '../types/apollo-hooks.interface';
+import { IPaginatedData, IPaginatedQueryResponse, IPaginatedResponse } from '../types/hooks.interface';
 
 export function extractNodes<P = Record<string, unknown>>(data: IPaginatedData<P>): Array<P> {
   return data ? data.map((e) => e.node) : [];

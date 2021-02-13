@@ -1,27 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDataTable } from '../../shared/table/hooks/useDataTable';
-import { usePagination } from '../../shared/table/hooks/usePagination';
-import { IQueryPageInfo, QueryRefetchFunction } from '../../shared/apollo/types/apollo-hooks.interface';
 import { IUserEntity } from '../hooks/useGetUsers';
-import { useSorting } from '../../shared/table/hooks/useSorting';
 import { UserSortFields } from '../types/user.interface';
+import { IDataTablePaginationProps, IDataTableSortingProps } from '../../shared/table/components/DataTable';
 
 interface IUsersTableProps {
   data?: IUserEntity[];
-  pageInfo: IQueryPageInfo;
-  refetch: QueryRefetchFunction<UserSortFields>;
-  loading: boolean;
+  pagination?: IDataTablePaginationProps;
+  sorting?: IDataTableSortingProps<UserSortFields>;
+  loading?: boolean;
+  children?: React.ReactNode;
 }
 
-export const UsersTable = ({ data = [], refetch, pageInfo, loading }: IUsersTableProps): React.ReactElement => {
-  const [paging, pagination] = usePagination({ pageInfo });
-  const [sorting, sortingProps] = useSorting<UserSortFields>();
-
-  useEffect(() => {
-    refetch({ paging, sorting });
-  }, [refetch, paging, sorting]);
-
-  const DataTable = useDataTable<IUserEntity>({
+export const UsersTable = ({
+  data = [],
+  pagination,
+  sorting,
+  loading,
+  children,
+}: IUsersTableProps): React.ReactElement => {
+  const DataTable = useDataTable<IUserEntity, UserSortFields>({
     columns: [
       {
         accessor: 'id',
@@ -39,10 +37,10 @@ export const UsersTable = ({ data = [], refetch, pageInfo, loading }: IUsersTabl
       },
     ],
     rows: data,
-    pagination,
     loading,
-    sorting: sortingProps,
+    pagination,
+    sorting,
   });
 
-  return <DataTable title="Users" />;
+  return <DataTable title="Users">{children}</DataTable>;
 };

@@ -2,9 +2,10 @@ import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { useNotification } from '../../shared/notifications/hooks/useNotification';
-import { RequestHookResponse } from '../../shared/apollo/types/apollo-hooks.interface';
+import { RequestHookResponse } from '../../shared/apollo/types/hooks.interface';
 import { useAuth } from './useAuth';
 import { ME_QUERY } from './useMe';
+import { useServerErrors } from '../../shared/apollo/hooks/useServerErrors';
 
 type IUseLogin = RequestHookResponse<{
   login: (input: { email: string; password: string }) => void;
@@ -36,7 +37,7 @@ export const useLogin = (): IUseLogin => {
   });
 
   return {
-    error,
+    serverErrors: useServerErrors(error),
     data: data && data.login,
     loading,
     login: useCallback(({ email, password }) => login({ variables: { input: { email, password } } }), [login]),

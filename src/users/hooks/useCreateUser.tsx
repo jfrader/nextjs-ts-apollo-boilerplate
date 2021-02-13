@@ -1,10 +1,11 @@
 import { gql, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
 import { useNotification } from '../../shared/notifications/hooks/useNotification';
-import { RequestHookResponse } from '../../shared/apollo/types/apollo-hooks.interface';
+import { RequestHookResponse } from '../../shared/apollo/types/hooks.interface';
+import { useServerErrors } from '../../shared/apollo/hooks/useServerErrors';
 
 type ICreateUser = RequestHookResponse<{
-  createUser: (input: { email: string; password: string }) => void;
+  createUser: (input: { email: string; password: string; role: string }) => void;
 }>;
 
 const LOGIN_MUTATION = gql`
@@ -20,7 +21,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-export const useLogin = (): ICreateUser => {
+export const useCreateUser = (): ICreateUser => {
   const { apolloError, success } = useNotification();
   const [createUser, { error, data, loading }] = useMutation(LOGIN_MUTATION, {
     onError: apolloError,
@@ -28,11 +29,9 @@ export const useLogin = (): ICreateUser => {
   });
 
   return {
-    error,
+    serverErrors: useServerErrors(error),
     data: data && data.createUser.node,
     loading,
-    createUser: useCallback(({ email, password }) => createUser({ variables: { input: { email, password } } }), [
-      createUser,
-    ]),
+    createUser: useCallback((input) => createUser({ variables: { input } }), [createUser]),
   };
 };
