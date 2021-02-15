@@ -36,24 +36,12 @@ export interface IPaginatedQueryResponse<P> {
   };
 }
 
-export interface IRequestHookResponse {
-  serverErrors: string[];
-  data?: unknown;
-  loading: boolean;
-}
-
-export type QueryRefetchFunction<SF = string> = (input: {
+export type PaginatedQueryRefetchFunction<SF = string> = (input: {
   paging?: IQueryPaginationInput;
   sorting?: IQuerySortInput<SF>;
 }) => void;
 
-export interface IPaginatedQueryHookResponse<P, SF> {
-  refetch: QueryRefetchFunction<SF>;
-  data?: P[];
-  serverErrors: string[];
-  loading: boolean;
-  pageInfo: IQueryPageInfo;
-}
+export type QueryRefetchFunction<S = Record<string, unknown>> = (input: S) => void;
 
 export interface IQueryPaginationInput {
   after?: string;
@@ -68,6 +56,26 @@ export type IQuerySortInput<F = string> = {
   nulls?: ESortNulls;
 }[];
 
+export interface IQueryHookResponse<E, S> {
+  refetch?: QueryRefetchFunction<S>;
+  serverErrors: string[];
+  data?: E;
+  loading: boolean;
+}
+export type QueryHookResponse<E = unknown, S = unknown, P = unknown> = IQueryHookResponse<E, S> & (P | undefined);
+
+export interface IPaginatedQueryHookResponse<E, SF> {
+  refetch: PaginatedQueryRefetchFunction<SF>;
+  data?: E[];
+  serverErrors: string[];
+  loading: boolean;
+  pageInfo: IQueryPageInfo;
+}
 export type PaginatedQueryHookResponse<P = Record<string, unknown>, SF = string> = IPaginatedQueryHookResponse<P, SF>;
 
-export type RequestHookResponse<P = unknown> = IRequestHookResponse & (P | undefined);
+export interface IMutationHookResponse<E> {
+  serverErrors: string[];
+  data?: E;
+  loading: boolean;
+}
+export type MutationHookResponse<P = unknown, E = unknown> = IMutationHookResponse<E> & (P | undefined);

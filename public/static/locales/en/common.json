@@ -1,5 +1,6 @@
 {
   "ERROR_NETWORK": "A network error occured, please check your connection.",
   "ERROR_UNEXPECTED": "Ups, something went wrong. Please try again later",
-  "CANCEL": "Cancel"
+  "LITERAL_CANCEL": "Cancel",
+  "LITERAL_ACCEPT": "Accept"
 }

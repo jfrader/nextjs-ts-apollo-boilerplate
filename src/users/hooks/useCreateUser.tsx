@@ -1,10 +1,10 @@
 import { gql, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
 import { useNotification } from '../../shared/notifications/hooks/useNotification';
-import { RequestHookResponse } from '../../shared/apollo/types/hooks.interface';
+import { MutationHookResponse } from '../../shared/apollo/types/hooks.interface';
 import { useServerErrors } from '../../shared/apollo/hooks/useServerErrors';
 
-type ICreateUser = RequestHookResponse<{
+type ICreateUser = MutationHookResponse<{
   createUser: (input: { email: string; password: string; role: string }) => void;
 }>;
 

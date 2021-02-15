@@ -8,15 +8,9 @@ import {
   IQuerySortInput,
   PaginatedQueryHookResponse,
 } from '../../shared/apollo/types/hooks.interface';
-import { UserSortFields } from '../types/user.interface';
+import { IUserEntity, UserSortFields } from '../types/user.interface';
 
-export interface IUserEntity {
-  id: string;
-  email: string;
-  role: string;
-}
-
-export interface IGetUserProps<SF> {
+export interface IGetUsersProps<SF> {
   paging?: IQueryPaginationInput;
   sorting?: IQuerySortInput<SF>;
 }
@@ -51,14 +45,14 @@ const DEFAULT_VARIABLES = {
   sorting: DEFAULT_SORTING,
 };
 
-export const useGetUsers = ({ paging, sorting }: IGetUserProps<UserSortFields> = DEFAULT_VARIABLES): IGetUsers => {
+export const useGetUsers = ({ paging, sorting }: IGetUsersProps<UserSortFields> = DEFAULT_VARIABLES): IGetUsers => {
   const { error, data, pageInfo, loading, refetch } = usePaginatedQuery<IUserEntity>('users', GET_USERS_QUERY, {
     variables: { paging, sorting },
   });
 
   return {
     refetch: useCallback(
-      ({ paging, sorting }: IGetUserProps<UserSortFields> = DEFAULT_VARIABLES) => {
+      ({ paging, sorting }: IGetUsersProps<UserSortFields> = DEFAULT_VARIABLES) => {
         refetch({ paging, sorting });
       },
       [refetch]

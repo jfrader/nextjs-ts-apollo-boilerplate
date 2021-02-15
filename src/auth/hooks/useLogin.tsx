@@ -2,12 +2,12 @@ import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { useNotification } from '../../shared/notifications/hooks/useNotification';
-import { RequestHookResponse } from '../../shared/apollo/types/hooks.interface';
+import { MutationHookResponse } from '../../shared/apollo/types/hooks.interface';
 import { useAuth } from './useAuth';
 import { ME_QUERY } from './useMe';
 import { useServerErrors } from '../../shared/apollo/hooks/useServerErrors';
 
-type IUseLogin = RequestHookResponse<{
+type IUseLogin = MutationHookResponse<{
   login: (input: { email: string; password: string }) => void;
 }>;
 

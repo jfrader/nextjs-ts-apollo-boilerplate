@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import * as yup from 'yup';
-import { IUserEntity } from '../hooks/useGetUsers';
+import { IUserEntity } from '../types/user.interface';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from '../../i18next';
 import { Controller, useForm } from 'react-hook-form';
@@ -48,17 +48,17 @@ export function UserForm({ initialValues, loading, onSubmit, onCancel }: IUserFo
           name="email"
           control={control}
           defaultValue=""
-          render={(props) => <TextInput {...props} error={errors?.email} type="email" />}
+          render={(props) => <TextInput {...props} error={errors?.email} type="email" label="Email" />}
         />
         <Controller
           name="password"
           control={control}
           defaultValue=""
-          render={(props) => <TextInput {...props} error={errors?.password} type="password" />}
+          render={(props) => <TextInput {...props} error={errors?.password} type="password" label="Password" />}
         />
         <FormFooter>
           <CancelButton disabled={loading} onClick={onCancel}>
-            {t('common:CANCEL')}
+            {t('common:LITERAL_CANCEL')}
           </CancelButton>
           <SubmitButton disabled={loading}>{t('SAVE_USER')}</SubmitButton>
         </FormFooter>
