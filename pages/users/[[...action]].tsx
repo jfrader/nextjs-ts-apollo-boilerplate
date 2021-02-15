@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import { TFunction } from 'next-i18next';
 import AddIcon from '@material-ui/icons/Add';
@@ -25,7 +25,14 @@ const UsersPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
   const [paging, pagination] = usePagination({ pageInfo });
   const [sorting, sort] = useSorting<UserSortFields>();
 
-  const { createUser, loading, serverErrors } = useCreateUser();
+  const onUserCreated = useCallback(() => {
+    refetch({ paging, sorting });
+    router.push('/users');
+  }, [paging, refetch, router, sorting]);
+
+  const { createUser, loading, serverErrors } = useCreateUser(onUserCreated);
+
+  const isCreateEdit = action?.[0] === 'create' || action?.[0] === 'edit';
 
   useEffect(() => {
     refetch({ paging, sorting });
@@ -37,10 +44,10 @@ const UsersPage = ({ t }: { readonly t: TFunction }): React.ReactElement => {
         <title>{t('USERS_PAGE_TITLE')}</title>
       </Head>
       <PageContent>
-        <Dialog open={action?.[0] === 'create'}>
+        <Dialog open={isCreateEdit}>
           <DialogContent>
             <UserForm
-              initialValues={{}}
+              initialValues={{ id: isCreateEdit && action?.[1] }}
               onSubmit={createUser}
               serverErrors={serverErrors}
               loading={loading}

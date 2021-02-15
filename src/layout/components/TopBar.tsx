@@ -14,7 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { useLogout } from '../../auth/hooks/useLogout';
 import { useTranslation } from '../../i18next';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { Button } from '@material-ui/core';
+import { Box, Button, Drawer, List, ListItem, ListItemText } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -83,11 +83,13 @@ const useStyles = makeStyles((theme) => ({
 export const TopBar: React.FC = () => {
   const classes = useStyles();
 
-  const { t } = useTranslation('login');
+  const { t } = useTranslation(['nav', 'common']);
   const { isLogged } = useAuth();
   const { logout } = useLogout();
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -110,7 +112,7 @@ export const TopBar: React.FC = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={logout}>{t('LITERAL_LOGOUT')}</MenuItem>
+        <MenuItem onClick={logout}>{t('login:LITERAL_LOGOUT')}</MenuItem>
       </Menu>
     ),
     [anchorEl, isMenuOpen, handleMenuClose, logout, t]
@@ -118,9 +120,27 @@ export const TopBar: React.FC = () => {
 
   return (
     <div className={classes.grow}>
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box onClick={() => setDrawerOpen(false)} p={4}>
+          <List>
+            <ListItem button component={Link} href="/">
+              <ListItemText>{t('nav:NAV_HOME')}</ListItemText>
+            </ListItem>
+            <ListItem button component={Link} href="/users">
+              <ListItemText>{t('nav:NAV_USERS')}</ListItemText>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
+          <IconButton
+            onClick={() => setDrawerOpen(true)}
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+          >
             <MenuIcon />
           </IconButton>
           <Typography component={Link} href="/" className={classes.title} variant="h6" noWrap>
@@ -154,7 +174,7 @@ export const TopBar: React.FC = () => {
               </IconButton>
             ) : (
               <Button aria-label="login" color="inherit" component={Link} href="/login">
-                {t('LITERAL_LOGIN')}
+                {t('login:LITERAL_LOGIN')}
               </Button>
             )}
           </div>

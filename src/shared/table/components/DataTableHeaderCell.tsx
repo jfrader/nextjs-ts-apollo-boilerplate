@@ -3,7 +3,7 @@ import { TableCell, TableSortLabel } from '@material-ui/core';
 import { IDataTableColumn, IDataTableSortingProps } from './DataTable';
 
 interface IDataTableHeaderCellProps {
-  column: IDataTableColumn;
+  column: IDataTableColumn<unknown>;
   sorting: IDataTableSortingProps<unknown>;
 }
 

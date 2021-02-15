@@ -21,11 +21,14 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-export const useCreateUser = (): ICreateUser => {
+export const useCreateUser = (onSuccess?: (...p: unknown[]) => void): ICreateUser => {
   const { apolloError, success } = useNotification();
   const [createUser, { error, data, loading }] = useMutation(LOGIN_MUTATION, {
     onError: apolloError,
-    onCompleted: (data) => success(data.createUser.message),
+    onCompleted: (data) => {
+      onSuccess(data.createUser);
+      success(data.createUser.message);
+    },
   });
 
   return {

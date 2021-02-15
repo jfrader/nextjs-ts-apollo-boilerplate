@@ -19,8 +19,11 @@ import { DataTableAccessor } from '../hooks/useAccessor';
 import { DataTableHeaderCell } from './DataTableHeaderCell';
 import { DataTableRowCell } from './DataTableRowCell';
 
-export interface IDataTableColumn {
+export type IDataTableAccessorProps<E> = { row?: IDataTableRow<E> } & Partial<Record<string, unknown>>;
+
+export interface IDataTableColumn<E> {
   accessor: DataTableAccessor;
+  accessorProps?: IDataTableAccessorProps<E>;
   key?: string;
   title?: React.ReactNode;
   align?: 'left' | 'right' | 'center';
@@ -54,14 +57,14 @@ export interface IDataTableProps<E = Record<string, unknown>, SF = string> {
   loading?: boolean;
   title?: React.ReactNode;
   rows?: IDataTableRow<E>[];
-  columns: IDataTableColumn[];
+  columns: IDataTableColumn<E>[];
   children?: React.ReactNode;
   component?: React.FC;
   pagination?: IDataTablePaginationProps;
   sorting?: IDataTableSortingProps<SF>;
 }
 
-const getColumnKey = (column: IDataTableColumn, index: number) =>
+const getColumnKey = (column: IDataTableColumn<unknown>, index: number) =>
   typeof column.title === 'string' ? column.title : column.key || index;
 
 export function DataTable<E = Record<string, unknown>, SF = string>({
@@ -75,7 +78,7 @@ export function DataTable<E = Record<string, unknown>, SF = string>({
   title = null,
 }: IDataTableProps<E, SF>): React.ReactElement {
   const RenderColumnHeader = useCallback(
-    (column: IDataTableColumn, i) => {
+    (column: IDataTableColumn<E>, i) => {
       const key = getColumnKey(column, i);
       return <DataTableHeaderCell sorting={sorting} key={key} column={column} />;
     },
@@ -86,7 +89,7 @@ export function DataTable<E = Record<string, unknown>, SF = string>({
     (row: IDataTableRow) => {
       return (
         <TableRow key={row.id}>
-          {columns.map((column: IDataTableColumn, i) => {
+          {columns.map((column: IDataTableColumn<E>, i) => {
             const cellKey = row.id + getColumnKey(column, i);
             return <DataTableRowCell key={cellKey} column={column} row={row} />;
           })}
