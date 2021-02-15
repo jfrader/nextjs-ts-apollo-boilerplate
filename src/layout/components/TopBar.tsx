@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 export const TopBar: React.FC = () => {
   const classes = useStyles();
 
-  const { t } = useTranslation(['nav', 'common']);
+  const { t } = useTranslation(['nav', 'login']);
   const { isLogged } = useAuth();
   const { logout } = useLogout();
 
