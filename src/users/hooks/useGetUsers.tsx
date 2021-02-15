@@ -52,7 +52,7 @@ const DEFAULT_VARIABLES = {
 };
 
 export const useGetUsers = ({ paging, sorting }: IGetUserProps<UserSortFields> = DEFAULT_VARIABLES): IGetUsers => {
-  const { error, data, pageInfo, loading, refetch } = usePaginatedQuery<IUserEntity>(GET_USERS_QUERY, {
+  const { error, data, pageInfo, loading, refetch } = usePaginatedQuery<IUserEntity>('users', GET_USERS_QUERY, {
     variables: { paging, sorting },
   });
 
