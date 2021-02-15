@@ -77,15 +77,15 @@ export const UsersTable = (): JSX.Element => {
       },
       {
         accessor: 'role',
-        title: 'Role',
+        title: t('USER_ROLE'),
       },
       {
-        title: 'Actions',
+        title: t('common:LITERAL_ACTIONS'),
         accessor: RenderActions,
         accessorProps: { onClickDelete, disabled: deleteLoading },
       },
     ],
-    [onClickDelete, deleteLoading]
+    [onClickDelete, deleteLoading, t]
   );
 
   const DataTable = useDataTable<IUserEntity, UserSortFields>({
@@ -101,7 +101,7 @@ export const UsersTable = (): JSX.Element => {
       <Modal open={deleteOpen} onCancel={() => setDeleteOpen(null)} onAccept={onAcceptDelete}>
         <Typography>{t('USERS_DELETE_CONFIRMATION_MESSAGE')}</Typography>
       </Modal>
-      <Modal open={isCreate} title="Create User">
+      <Modal open={isCreate} title={t('NEW_USER')}>
         <UserForm
           initialValues={{}}
           onSubmit={createUser}
@@ -110,7 +110,7 @@ export const UsersTable = (): JSX.Element => {
           onCancel={() => router.push('/users')}
         />
       </Modal>
-      <DataTable title="Users">
+      <DataTable title={t('USERS_TABLE_TITLE')}>
         <Fab color="primary" size="small" onClick={() => router.push('/users/create')}>
           <AddIcon />
         </Fab>

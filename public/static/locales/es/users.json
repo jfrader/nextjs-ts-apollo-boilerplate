@@ -3,5 +3,6 @@
   "USERS_TABLE_TITLE": "Usuarios",
   "SAVE_USER": "Guardar Usuario",
   "NEW_USER": "Nuevo Usuario",
-  "USERS_DELETE_CONFIRMATION_MESSAGE": "Estas seguro de eliminar este usuario?"
+  "USERS_DELETE_CONFIRMATION_MESSAGE": "Estas seguro de eliminar este usuario?",
+  "USER_ROLE": "Rol"
 }

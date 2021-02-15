@@ -18,6 +18,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { DataTableAccessor } from '../hooks/useAccessor';
 import { DataTableHeaderCell } from './DataTableHeaderCell';
 import { DataTableRowCell } from './DataTableRowCell';
+import { useTranslation } from '../../../i18next';
 
 export type IDataTableAccessorProps<E> = { row?: IDataTableRow<E> } & Partial<Record<string, unknown>>;
 
@@ -77,6 +78,8 @@ export function DataTable<E = Record<string, unknown>, SF = string>({
   loading,
   title = null,
 }: IDataTableProps<E, SF>): React.ReactElement {
+  const { t } = useTranslation('common');
+
   const RenderColumnHeader = useCallback(
     (column: IDataTableColumn<E>, i) => {
       const key = getColumnKey(column, i);
@@ -111,10 +114,16 @@ export function DataTable<E = Record<string, unknown>, SF = string>({
     []
   );
 
+  const getLabelDisplayedRows = useCallback(
+    ({ from, to, count }) =>
+      `${from}-${to} ${t('LITERAL_OF')} ${count !== -1 ? count : t('LITERAL_MORE_THAN') + ' ' + to}`,
+    [t]
+  );
+
   return (
     <TableContainer component={component}>
       <Toolbar>
-        <Typography>{title}</Typography>
+        <Typography variant="h6">{title}</Typography>
         <Box flexGrow={1} />
         <Box>{loading ? <CircularProgress /> : children}</Box>
       </Toolbar>
@@ -126,7 +135,11 @@ export function DataTable<E = Record<string, unknown>, SF = string>({
         <TableFooter hidden={!pagination}>
           {pagination && (
             <TableRow>
-              <TablePagination {...pagination} />
+              <TablePagination
+                labelRowsPerPage={t('LITERAL_ROWS_PER_PAGE')}
+                labelDisplayedRows={getLabelDisplayedRows}
+                {...pagination}
+              />
             </TableRow>
           )}
         </TableFooter>

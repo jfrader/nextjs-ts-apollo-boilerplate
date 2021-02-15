@@ -2,5 +2,9 @@
   "ERROR_NETWORK": "Hubo un error de red, por favor verifique su conexion",
   "ERROR_UNEXPECTED": "Lo sentimos, algo salio mal. Por favor vuelve a intentar mas tarde",
   "LITERAL_CANCEL": "Cancelar",
-  "LITERAL_ACCEPT": "Aceptar"
+  "LITERAL_ACCEPT": "Aceptar",
+  "LITERAL_ACTIONS": "Acciones",
+  "LITERAL_MORE_THAN": "más de",
+  "LITERAL_OF": "de",
+  "LITERAL_ROWS_PER_PAGE": "Filas por página"
 }

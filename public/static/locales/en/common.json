@@ -2,5 +2,9 @@
   "ERROR_NETWORK": "A network error occured, please check your connection.",
   "ERROR_UNEXPECTED": "Ups, something went wrong. Please try again later",
   "LITERAL_CANCEL": "Cancel",
-  "LITERAL_ACCEPT": "Accept"
+  "LITERAL_ACCEPT": "Accept",
+  "LITERAL_ACTIONS": "Actions",
+  "LITERAL_MORE_THAN": "more than",
+  "LITERAL_OF": "of",
+  "LITERAL_ROWS_PER_PAGE": "Rows per page"
 }
