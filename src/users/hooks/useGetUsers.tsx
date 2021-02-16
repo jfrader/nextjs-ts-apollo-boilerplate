@@ -3,7 +3,6 @@ import { useCallback } from 'react';
 import { usePaginatedQuery } from '../../shared/apollo/hooks/usePaginatedQuery';
 import { useServerErrors } from '../../shared/apollo/hooks/useServerErrors';
 import {
-  ESortDirection,
   IQueryPaginationInput,
   IQuerySortInput,
   PaginatedQueryHookResponse,
@@ -38,7 +37,7 @@ const GET_USERS_QUERY = gql`
 `;
 
 const DEFAULT_PAGING = { first: 20 };
-const DEFAULT_SORTING = [{ field: UserSortFields.id, direction: ESortDirection.DESC }];
+const DEFAULT_SORTING = [];
 
 const DEFAULT_VARIABLES = {
   paging: DEFAULT_PAGING,

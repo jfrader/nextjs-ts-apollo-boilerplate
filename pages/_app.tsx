@@ -5,7 +5,7 @@ import { ApolloProvider } from '@apollo/client';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import { Layout } from '../src/layout/components/Layout';
-import theme from '../styles/theme';
+import { EThemes, useTheme } from '../styles/useTheme';
 import { client } from '../src/apollo.client';
 import { appWithTranslation } from '../src/i18next';
 import { SnackbarProvider } from 'notistack';
@@ -15,6 +15,8 @@ import { CookieMessage } from '../src/auth/types/cookie';
 import { AuthProvider } from '../src/auth/providers/AuthProvider';
 
 const MyApp = ({ Component, pageProps, isLogged }: AppProps): React.ReactElement => {
+  const theme = useTheme(EThemes.DEFAULT);
+
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');

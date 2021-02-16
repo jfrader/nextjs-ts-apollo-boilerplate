@@ -20,7 +20,7 @@ interface IModalProps {
 }
 
 export const Modal = ({
-  open,
+  open = false,
   onAccept,
   onCancel,
   actions,
@@ -35,7 +35,7 @@ export const Modal = ({
 }: IModalProps): JSX.Element => {
   const { t } = useTranslation('common');
   return (
-    <Dialog aria-label="modal" open={open as boolean} onClose={onCancel} fullWidth={fullWidth} maxWidth={maxWidth}>
+    <Dialog aria-label="modal" open={!!open} onClose={onCancel} fullWidth={fullWidth} maxWidth={maxWidth}>
       {title && <DialogTitle>{title}</DialogTitle>}
       {children && <DialogContent>{children}</DialogContent>}
       <DialogActions>

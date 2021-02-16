@@ -24,7 +24,7 @@ const RenderActions = ({
   ...rest
 }: IDataTableAccessorProps<IUserEntity> & { onClickDelete?: OnClickEditFunction } & IconButtonProps) => (
   <>
-    <IconButton color="primary" size="small" onClick={() => onClickDelete(row)} {...rest}>
+    <IconButton color="secondary" size="small" onClick={() => onClickDelete(row)} {...rest}>
       <DeleteIcon />
     </IconButton>
   </>
@@ -37,7 +37,7 @@ export const UsersTable = (): JSX.Element => {
 
   const [deleteOpen, setDeleteOpen] = useState<string | null>(null);
 
-  const isCreate = action?.[0] === 'create';
+  const isCreate = !!(action?.[0] === 'create') || false;
 
   const { refetch, pageInfo, data, loading } = useGetUsers();
 
